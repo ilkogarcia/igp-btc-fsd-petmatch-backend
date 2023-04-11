@@ -1,16 +1,14 @@
 import express from 'express'
-
 import * as dotenv from 'dotenv'
-dotenv.config()
+import routes from './v1/routes/index.js'
 
-const app = express()
+dotenv.config()
 const PORT = process.env.PORT || 3000
 
-// For testing purpose
-app.get('/', (req, res) => {
-  res.send('<h2>Welcome to PetMatch API... It´s Working!</h2>')
-})
+const server = express()
+server.use(express.json())
+server.use('/api/v1', routes)
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`🐶 PetMatch API is listening on port ${PORT}`)
 })
