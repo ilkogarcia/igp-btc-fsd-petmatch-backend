@@ -118,7 +118,7 @@ export class petController {
     }
     return res.status(201).json({
       success: true,
-      message: `Pet with ID:${petId} deleted successfully`,
+      message: `Pet with ID:${petId} deleted successfully`
     })
   }
 
