@@ -122,14 +122,22 @@ export class petController {
     })
   }
 
-  // Get all pets from database
-  static getAllPets = (req, res) => {
-    const allPets = petService.getAllPets()
-    return res.status(201).json({
-      success: true,
-      message: 'Get all pets',
-      data: allPets
-    })
+  // Get list of pets from database (accept and handle query parameters)
+  static getAllPets = async (req, res) => {
+    const { species } = req.query
+    try {
+      const allPets = petService.getAllPets({ species })
+      return res.status(201).json({
+        success: true,
+        message: `List of all pets of the species: ${species}`,
+        data: allPets
+      })
+    } catch (error) {
+      return res.status(error?.status || 500).json({
+        success: false,
+        message: `Something has gone wrong: ${error?.message || 'Unknown error'}`
+      })
+    }
   }
 }
 

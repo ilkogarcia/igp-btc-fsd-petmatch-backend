@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 /*
 * petService is a service class responsible for fetching data from database
 */
@@ -44,9 +45,14 @@ export class petService {
   }
 
   // Get all pets from database
-  static getAllPets = () => {
-    const allPets = petDB.getAllPets()
-    return allPets
+  static getAllPets = async (filterParams) => {
+    try {
+      console.log(filterParams)
+      const allPets = petDB.getAllPets(filterParams)
+      return allPets
+    } catch (error) {
+      throw error
+    }
   }
 }
 

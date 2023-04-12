@@ -60,8 +60,23 @@ export class petDB {
     return true
   }
 
-  static getAllPets = () => {
-    return DB.pets
+  static getAllPets = (filterParams) => {
+    try {
+      if (!DB || !DB.pets) {
+        throw new Error({ status: 500, message: 'Database connection error.' })
+      }
+      const pets = DB.pets
+      if (filterParams?.species) {
+        const filteredPets = pets.filter((pet) => {
+          return pet.species.toLowerCase().includes(filterParams.species.toLowerCase())
+        })
+        return filteredPets
+      }
+      // Other if-statements will go here for different parameters
+      return pets
+    } catch (error) {
+      throw new Error({ status: 500, message: error.message })
+    }
   }
 }
 
