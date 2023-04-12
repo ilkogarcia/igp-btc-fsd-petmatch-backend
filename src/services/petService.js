@@ -47,7 +47,6 @@ export class petService {
   // Get all pets from database
   static getAllPets = async (filterParams) => {
     try {
-      console.log(filterParams)
       const allPets = petDB.getAllPets(filterParams)
       return allPets
     } catch (error) {
