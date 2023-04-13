@@ -1,4 +1,4 @@
-import { ORMConfig } from '../config/config.js'
+import { ORMConfig } from '../config/config.cjs'
 import { Sequelize } from 'sequelize'
 import * as dotenv from 'dotenv'
 dotenv.config()

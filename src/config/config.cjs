@@ -1,14 +1,13 @@
-import * as dotenv from 'dotenv'
-dotenv.config()
+require('dotenv').config()
 
-export const ORMConfig = {
+const ORMConfig = {
   development: {
     database: process.env.MYSQL_DATABASE,
     username: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     host: process.env.MYSQL_HOST,
     port: process.env.MYSQL_PORT,
-    dialect: process.env.MYSQL_DIALECT
+    dialect: process.env.MYSQL_DIALECT || 'mysql'
   },
   test: {
     database: 'database_development',
@@ -28,4 +27,4 @@ export const ORMConfig = {
   }
 }
 
-export default ORMConfig
+module.exports = { ORMConfig }
