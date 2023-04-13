@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       Country.hasMany(models.StateProvince, {
         foreignKey: 'countryId'
       })
+
+      Country.hasMany(models.User, {
+        foreignKey: 'userId'
+      })
     }
   }
   Country.init({
