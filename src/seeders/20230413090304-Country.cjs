@@ -1,8 +1,9 @@
 'use strict'
 /** @type {import('sequelize-cli').Migration} */
+
 module.exports = {
-  async up (queryInterface, Sequelize) {
-    await queryInterface.bulkInsert('Country', [
+  up: async (queryInterface, Sequelize) => {
+    const countries = [
       { alpha2CountryCode: 'AT', alpha3CountryCode: 'AUT', numericCountryCode: '040', countryName: 'Austria', createdAt: new Date(), updatedAt: new Date() },
       { alpha2CountryCode: 'BE', alpha3CountryCode: 'BEL', numericCountryCode: '056', countryName: 'Belgium', createdAt: new Date(), updatedAt: new Date() },
       { alpha2CountryCode: 'BG', alpha3CountryCode: 'BGR', numericCountryCode: '100', countryName: 'Bulgaria', createdAt: new Date(), updatedAt: new Date() },
@@ -19,10 +20,12 @@ module.exports = {
       { alpha2CountryCode: 'HU', alpha3CountryCode: 'HUN', numericCountryCode: '348', countryName: 'Hungary', createdAt: new Date(), updatedAt: new Date() },
       { alpha2CountryCode: 'IE', alpha3CountryCode: 'IRL', numericCountryCode: '372', countryName: 'Ireland', createdAt: new Date(), updatedAt: new Date() },
       { alpha2CountryCode: 'IT', alpha3CountryCode: 'ITA', numericCountryCode: '380', countryName: 'Italy', createdAt: new Date(), updatedAt: new Date() }
-    ], {})
+    ]
+
+    return queryInterface.bulkInsert('Country', countries, {})
   },
 
-  async down (queryInterface, Sequelize) {
+  down: async (queryInterface, Sequelize) => {
     await queryInterface.bulkDelete('Country', null, {})
   }
 }
