@@ -11,11 +11,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate (models) {
       // define association here
       PetSpecie.hasMany(models.PetBreed, {
-        foreignKey: 'speciesId'
+        foreignKey: 'specieId'
       })
 
       PetSpecie.hasMany(models.Pet, {
-        foreignKey: 'petId'
+        foreignKey: 'specieId'
       })
     }
   }

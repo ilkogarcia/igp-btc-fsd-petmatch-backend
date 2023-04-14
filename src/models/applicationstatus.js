@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate (models) {
       ApplicationStatus.hasMany(models.AdoptionApplication, {
-        foreignKey: 'addoptionApplicationId'
+        foreignKey: 'statusId'
       })
 
       // define association here

@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'countryId'
       })
 
+      Shelter.hasMany(models.AdoptionApplication, {
+        foreignKey: 'shelterId'
+      })
+
       // define other association here
     }
   }

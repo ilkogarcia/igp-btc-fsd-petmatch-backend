@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       PetBreed.hasMany(models.Pet, {
-        foreignKey: 'petId'
+        foreignKey: 'breedId'
       })
     }
   }
