@@ -16,7 +16,11 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       City.hasMany(models.User, {
-        foreignKey: 'userId'
+        foreignKey: 'cityId'
+      })
+
+      City.hasMany(models.Shelter, {
+        foreignKey: 'cityId'
       })
     }
   }

@@ -15,7 +15,11 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       Country.hasMany(models.User, {
-        foreignKey: 'userId'
+        foreignKey: 'countryId'
+      })
+
+      Country.hasMany(models.Shelter, {
+        foreignKey: 'countryId'
       })
     }
   }

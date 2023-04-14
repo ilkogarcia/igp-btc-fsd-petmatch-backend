@@ -20,7 +20,11 @@ module.exports = (sequelize, DataTypes) => {
       })
 
       StateProvince.hasMany(models.User, {
-        foreignKey: 'userId'
+        foreignKey: 'stateProvinceId'
+      })
+
+      StateProvince.hasMany(models.Shelter, {
+        foreignKey: 'stateProvinceId'
       })
     }
   }

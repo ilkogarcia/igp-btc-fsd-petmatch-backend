@@ -13,7 +13,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        title: 'shelters',
+        title: 'shelter',
         description: 'Organizations that publish lists of pets available for adoption on the platform',
         permissions: 'Pets:Search,List,View,Create,Edit,Delete',
         isActive: true,
@@ -21,7 +21,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        title: 'administrators',
+        title: 'administrator',
         description: 'People responsible for managing and maintaining the platform',
         permissions: 'Pet:All/Shelter:All/User:All/AdoptionApplication:All',
         isActive: true,
@@ -29,7 +29,7 @@ module.exports = {
         updatedAt: new Date()
       },
       {
-        title: 'developers',
+        title: 'developer',
         description: 'People responsible for creating and maintaining the software and technical infrastructure of the platform',
         permissions: 'Pet:All/Shelter:All/User:All/AdoptionApplication:All',
         isActive: false,
