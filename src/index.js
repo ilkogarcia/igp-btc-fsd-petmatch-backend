@@ -1,17 +1,21 @@
-import express from 'express'
-import * as dotenv from 'dotenv'
-import routes from './v1/routes/index.js'
-import { dbConnect } from './database/dbConnect.js'
-import { swaggerDocs as v1SwaggerDocs } from './v1/swagger.cjs'
+/*
+ * PetMatch.es
+ * Main App
+*/
+
+require('dotenv').config()
+const express = require('express')
+const routes = require('./v1/routes/index')
+const dbConnect = require('./database/dbConnect')
+const { swaggerDocs: v1SwaggerDocs } = require('./v1/swagger')
 
 const server = express()
-dotenv.config()
 const PORT = process.env.PORT || 3000
 
 server.use(express.json())
 server.use('/api/v1', routes)
 
-dbConnect()
+dbConnect
   .then(() => {
     server.listen(PORT, () => {
       console.log(`🐶 PetMatch API is listening on port ${PORT}`)

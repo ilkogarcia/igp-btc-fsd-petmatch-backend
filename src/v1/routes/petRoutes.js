@@ -1,14 +1,14 @@
-import express from 'express'
-import petController from '../../controllers/petController.js'
+const express = require('express')
+const PetController = require('../../controllers/petController')
 
 const router = express.Router()
 
 router
-  .post('/', petController.createNewPet)
-  .get('/:petId', petController.getOnePet)
-  .put('/:petId', petController.updateOnePet)
-  .delete('/:petId', petController.deleteOnePet)
-  .get('/', petController.getAllPets)
+  .post('/', PetController.createNewPet)
+  .get('/:petId', PetController.getOnePet)
+  .put('/:petId', PetController.updateOnePet)
+  .delete('/:petId', PetController.deleteOnePet)
+  .get('/', PetController.getAllPets)
 
 /**
 * @openapi
@@ -83,4 +83,4 @@ router
 *                      $ref: '#/components/schemas/Pet'
 */
 
-export default router
+module.exports = router

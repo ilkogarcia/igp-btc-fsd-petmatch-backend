@@ -1,7 +1,6 @@
-import express from 'express'
-import petRoutes from './petRoutes.js'
-
+const express = require('express')
 const router = express.Router()
+const petRoutes = require('./petRoutes')
 
 // Pets endpoints Routes
 router.use('/pets', petRoutes)
@@ -11,4 +10,4 @@ router.get('/', async (req, res) => {
   return res.json({ messsage: `👋 Hello from ${req.baseUrl}` })
 })
 
-export default router
+module.exports = router

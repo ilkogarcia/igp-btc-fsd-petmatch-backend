@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'shelterId'
       })
 
-      Shelter.hasMany(models.AddoptionApplication, {
+      Shelter.hasMany(models.AdoptionApplication, {
         foreignKey: 'shelterId'
       })
 

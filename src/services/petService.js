@@ -1,58 +1,102 @@
-/* eslint-disable no-useless-catch */
-/*
-* petService is a service class responsible for fetching data from database
+/**
+  * Pet - Service layer. The methods on this case only are responsible
+  * for return the created data and not be responsible for sending the
+  * response to the client..
 */
+const { Pet } = require('../models/index')
 
-import * as dotenv from 'dotenv'
-import { v4 as uuidv4 } from 'uuid'
-import petDB from '../database/Pet.js'
-
-dotenv.config()
-const language = process.env.LANGUAGE || 'es-ES'
-
-export class petService {
-  // CRUD: Create a new pet in database
-  static createNewPet = async (newPet) => {
-    const petToInsert = {
-      ...newPet,
-      id: uuidv4(),
-      createdAt: new Date().toLocaleString(language, { timeZone: 'UTC' }),
-      updatedAt: new Date().toLocaleString(language, { timeZone: 'UTC' })
-    }
+class PetService {
+  /**
+   * Creates a new pet in database.
+   * @param {Object} petData - The data for the pet to be created.
+   * @returns {Object} The created pet data.
+   */
+  static async createNewPet (petData) {
     try {
-      const createdPet = petDB.createNewPet(petToInsert)
-      return createdPet
+      const pet = await Pet.create(petData)
+      return {
+        success: true,
+        message: `Pet added successfully with id: ${pet.id}`,
+        data: { pet }
+      }
     } catch (error) {
-      throw error
+      throw new Error(`Something has gone wrong. Error: ${error?.message || 'Unknown error'}`)
     }
   }
 
-  // CRUD: Retrive an existing pet from database
-  static getOnePet = (petId) => {
-    const pet = petDB.getOnePet(petId)
-    return pet
-  }
-
-  // CRUD: Update an existing pet in database
-  static updateOnePet = (petId, changes) => {
-    const updatedPet = petDB.updateOnePet(petId, changes)
-    return updatedPet
-  }
-
-  // CRUD: Delete an existing pet in database
-  static deleteOnePet = (petId) => {
-    return petDB.deleteOnePet(petId)
-  }
-
-  // Get all pets from database
-  static getAllPets = async (filterParams) => {
+  /**
+   * Retrieves a pet by id.
+   * @param {Number} petId - The id of the pet to retrieve.
+   * @returns {Object} The retrieved pet data.
+   */
+  static async getOnePet (petId) {
     try {
-      const allPets = petDB.getAllPets(filterParams)
-      return allPets
+      const pet = await Pet.findByPk(petId)
+      if (!pet) {
+        throw new Error(`No pet found with id: ${petId}`)
+      }
+      return pet
     } catch (error) {
-      throw error
+      throw new Error(`Something has gone wrong. Error: ${error?.message || 'Unknown error'}`)
+    }
+  }
+
+  /**
+   * Updates a pet by id.
+   * @param {Number} petId - The id of the pet to update.
+   * @param {Object} petData - The data to update for the pet.
+   * @returns {Object} The updated pet data.
+   */
+  static async updateOnePet (petId, petData) {
+    try {
+      const updateResult = await Pet.update(petData, {
+        where: { id: petId }
+      })
+      if (updateResult[0] === 0) {
+        throw new Error(`No pet found with id: ${petId}`)
+      }
+      const pet = await Pet.findByPk(petId)
+      if (!pet) {
+        throw new Error(`No pet found with id: ${petId}`)
+      }
+      return pet
+    } catch (error) {
+      throw new Error(`Something has gone wrong. ${error.message}`)
+    }
+  }
+
+  /**
+   * Deletes a pet by id.
+   * @param {Number} petId - The id of the pet to delete.
+   * @returns {Object} The deleted pet data.
+   */
+  static async deleteOnePet (petId) {
+    try {
+      const pet = await Pet.findByPk(petId)
+      if (!pet) {
+        throw new Error(`No pet found with id: ${petId}`)
+      }
+      await pet.destroy()
+      return pet
+    } catch (error) {
+      throw new Error(`Something has gone wrong. Error: ${error?.message || 'Unknown error'}`)
+    }
+  }
+
+  /**
+   * Retrieves all pets.
+   * @returns {Array} An array of all pet data.
+   */
+  static async getAllPets () {
+    try {
+      const pets = await Pet.findAll({
+        order: [['id', 'DESC']]
+      })
+      return pets
+    } catch (error) {
+      throw new Error(`Something has gone wrong. Error: ${error?.message || 'Unknown error'}`)
     }
   }
 }
 
-export default petService
+module.exports = PetService
