@@ -128,7 +128,8 @@ const deleteOnePet = async (petId) => {
  * Retrieves all pets.
  * @returns {Array} An array of all pet data.
  */
-const getAllPets = async (limit, offset) => {
+const getAllPets = async (limit, page) => {
+  const offset = (page * limit) - limit
   try {
     const pets = await Pet.findAndCountAll({
       limit: limit,
@@ -136,9 +137,9 @@ const getAllPets = async (limit, offset) => {
     })
     return {
       info: {
-        count: pets.count,
+        total: pets.count,
         limit: limit,
-        offset: offset,
+        page: page,
       },
       data: {
         pets: pets.rows

@@ -43,13 +43,13 @@ const createNewPet = async (req, res) => {
     return res.status(201).json({
       sucess: true,
       message: 'Successfully added the new pet to the database.',
-      data: { pet: createdPet }
+      data: createdPet || []
     })
   } catch (error) {
     return res.status(error?.status || 500).json({
       sucess: false,
       message: error?.message || 'Unknow error',
-      data: { error }
+      data: error
     })
   }
 }
@@ -73,19 +73,19 @@ const getOnePet = async (req, res) => {
       return res.status(404).json({
         success: false,
         message: `Can't find a pet with the id '${petId}'.`,
-        data: { error }
+        data: error
       })
     }
     return res.status(201).json({
       sucess: true,
       message: `Pet with the id '${petId}' recovered successfully`,
-      data: { pet }
+      data: pet || []
     })
   } catch (error) {
     return res.status(error?.status || 500).json({
       sucess: false,
       message: error?.message || 'Unknow error',
-      data: { error }
+      data: error
     })
   }
 }
@@ -111,19 +111,19 @@ const updateOnePet = async (req, res) => {
       return res.status(404).json({
         success: false,
         message: `Can't find pet with the id '${petId}'.`,
-        data: { error }
+        data: error
       })
     }
     return res.status(201).json({
       sucess: true,
       message: `Pet with the id '${petId}' was updated successfully`,
-      data: { pet: updatedPet }
+      data: updatedPet || []
     })
   } catch (error) {
     return res.status(error?.status || 500).json({
       sucess: false,
       message: error?.message || 'Unknow error',
-      data: { error }
+      data: error
     })
   }
 }
@@ -147,19 +147,19 @@ const deleteOnePet = async (req, res) => {
       return res.status(404).json({
         success: false,
         message: `Can't find pet with the id '${petId}'.`,
-        data: { error }
+        data: error
       })
     }
     return res.status(201).json({
       sucess: true,
       message: `Pet with the id '${petId}' was deleted successfully`,
-      data: { pet: deletedPet }
+      data: deletedPet || []
     })
   } catch (error) {
     return res.status(error?.status || 500).json({
       sucess: false,
       message: error?.message || 'Unknow error',
-      data: { error }
+      data: error
     })
   }
 }
@@ -170,28 +170,34 @@ const deleteOnePet = async (req, res) => {
  * @returns {Object} res - An object in JSON format that includes all pets recovered in an array.
  */
 const getAllPets = async (req, res) => {
-  const limit = parseInt(req.query.limit) || 10
-  const offset = parseInt(req.query.offset) || 0
-  
+  const limit = parseInt(req.query.limit) || 5
+  const page = parseInt(req.query.page) || 1
+  if (limit <= 0 || page <= 0) {
+    return res.status(400).json({
+      status: false,
+      message: `Pagination parameters 'limit' and 'page' have to be greater than 0.`
+    })
+  }
+
   try {
-    const allPets = await PetService.getAllPets(limit, offset)
+    const allPets = await PetService.getAllPets(limit, page)
     if (!allPets) {
       return res.status(404).json({
         sucess: false,
-        message: `Can't find any pets on database at this time.`,
-        data: { error }
+        message: `Can't find more pets on database at this time.`,
+        data: error
       })
     }
     return res.status(201).json({
       sucess: true,
       message: 'All pets info recovered successfully.',
-      data: { pets: allPets }
+      data: allPets || []
     })
   } catch (error) {
     return res.status(error?.status || 500).json({
       sucess: false,
       message: error?.message || 'Unknow error',
-      data: { error }
+      data: error
     })
   }
 }
