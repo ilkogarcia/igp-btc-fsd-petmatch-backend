@@ -172,7 +172,10 @@ const deleteOnePet = async (req, res) => {
 const getAllPets = async (req, res) => {
   const limit = parseInt(req.query.limit) || 5
   const page = parseInt(req.query.page) || 1
-  const offset = (page - 1) * limit
+  const species = req.query.species || 'Dog'
+  const breed = req.query.breed || 'Beagle'
+  const gender = req.query.gender || 'Female'
+
 
   if (limit <= 0 || page <= 0) {
     return res.status(400).json({
@@ -180,17 +183,18 @@ const getAllPets = async (req, res) => {
       message: `Pagination parameters 'limit' and 'page' have to be greater than 0.`
     })
   }
+  
 
-  const specieId = parseInt(req.query.specieId) || 1
-  if (specieId <= 0) {
-    return res.status(400).json({
-      status: false,
-      message: `Filtering parameter 'specieId' have to be greater than 0.`
-    })
-  }
-
+  // if (specieId <= 0) {
+  //   return res.status(400).json({
+  //     status: false,
+  //     message: `Filtering parameter 'specieId' have to be greater than 0.`
+  //   })
+  // }
+  
   try {
-    const pets = await PetService.getAllPets(limit, offset, specieId)
+    const offset = (page - 1) * limit
+    const pets = await PetService.getAllPets(limit, offset, species, breed, gender)
     if (!pets) {
       return res.status(404).json({
         sucess: false,

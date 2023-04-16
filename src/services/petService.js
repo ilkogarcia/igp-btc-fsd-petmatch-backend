@@ -3,7 +3,7 @@
   * not be responsible for sending the response to the client.
 */
 const { Op } = require('sequelize')
-const { Pet } = require('../models/index')
+const { Pet, PetSpecie, PetBreed } = require('../models/index')
 
 /**
  * Creates a new pet in database.
@@ -129,10 +129,20 @@ const deleteOnePet = async (petId) => {
  * Retrieves all pets.
  * @returns {Array} An array of all pet data.
  */
-const getAllPets = async (limit, offset, specieId) => {
+const getAllPets = async (limit, offset, species, breed, gender) => {
   try {
     const pets = await Pet.findAndCountAll({
-      where: { specieId: specieId },
+      where: { gender: gender },
+      include: [{
+          model: PetBreed,
+          where: { breedName: breed },
+          required: true,
+          include: [{
+            model: PetSpecie,
+            where: { specieCommonName: species },
+            required: true
+          }],
+        }],
       limit: limit,
       offset: offset
     })
