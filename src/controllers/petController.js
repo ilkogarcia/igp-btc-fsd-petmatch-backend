@@ -25,36 +25,31 @@ const createNewPet = async (req, res) => {
     })
   }
   // Create a newPet object to pass it as an argument to our pet service
+  const newPet = {
+    specieId: body.specieId,
+    breedId: body.breedId,
+    shelterId: body.shelterId,
+    statusId: body.statusId,
+    gender: body.gender,
+    name: body.name,
+    age: body.age,
+    description: body.description,
+    imageUrl: body.imageUrl,
+    vaccinationStatus: body.vaccinationStatus,
+    spayedNeutered: body.spayedNeutered,
+  }
   try {
-    const newPet = {
-      specieId: body.specieId,
-      breedId: body.breedId,
-      shelterId: body.shelterId,
-      statusId: body.statusId,
-      gender: body.gender,
-      name: body.name,
-      age: body.age,
-      description: body.description,
-      imageUrl: body.imageUrl,
-      vaccinationStatus: body.vaccinationStatus,
-      spayedNeutered: body.spayedNeutered,
-    }
-    // Pass newPet to pet service in order to create it on the database
     const createdPet = await PetService.createNewPet(newPet)
     return res.status(201).json({
       sucess: true,
       message: 'Successfully added the new pet to the database.',
-      info: {
-        count: 1,
-      },
-      data: {
-        pet: createdPet
-      }
+      data: { pet: createdPet }
     })
   } catch (error) {
-    return res.status(500).json({
+    return res.status(error?.status || 500).json({
       sucess: false,
-      message: error.message,
+      message: error?.message || 'Unknow error',
+      data: { error }
     })
   }
 }
@@ -65,29 +60,32 @@ const createNewPet = async (req, res) => {
  * @returns {Object} res - An object in JSON format that includes the retrieved pet info.
  */
 const getOnePet = async (req, res) => {
-  const petId = req.params.petId
+  const { params: { petId } } = req
+  if (!petId) {
+    return res.status(400).json({
+      status: false,
+      message: `Parameter ':petId' can not be empty`
+    })
+  }
   try {
     const pet = await PetService.getOnePet(petId)
     if (!pet) {
       return res.status(404).json({
         success: false,
-        message: `Pet ID ${petId} not find.`
+        message: `Can't find a pet with the id '${petId}'.`,
+        data: { error }
       })
     }
     return res.status(201).json({
       sucess: true,
-      message: 'Pet info recovered successfully!',
-      info: {
-        count: 1,
-      },
-      data: {
-        pet: pet
-      }
+      message: `Pet with the id '${petId}' recovered successfully`,
+      data: { pet }
     })
   } catch (error) {
-    return res.status(500).json({
+    return res.status(error?.status || 500).json({
       sucess: false,
-      message: error.message,
+      message: error?.message || 'Unknow error',
+      data: { error }
     })
   }
 }
@@ -112,26 +110,22 @@ const updateOnePet = async (req, res) => {
     if (!updatedPet) {
       return res.status(404).json({
         success: false,
-        message: `Pet ID ${petId} not find.`
+        message: `Can't find pet with the id '${petId}'.`,
+        data: { error }
       })
     }
     return res.status(201).json({
       sucess: true,
-      message: `Pet with ID:${petId} updated successfully`,
-      info: {
-        count: 1,
-      },
-      data: {
-        pet: updatedPet
-      }
+      message: `Pet with the id '${petId}' was updated successfully`,
+      data: { pet: updatedPet }
     })
   } catch (error) {
-    return res.status(500).json({
+    return res.status(error?.status || 500).json({
       sucess: false,
-      message: error.message,
+      message: error?.message || 'Unknow error',
+      data: { error }
     })
   }
-
 }
 
 /**
@@ -152,23 +146,20 @@ const deleteOnePet = async (req, res) => {
     if (!deletedPet) {
       return res.status(404).json({
         success: false,
-        message: `Pet ID ${petId} is not finded on database.`
+        message: `Can't find pet with the id '${petId}'.`,
+        data: { error }
       })
     }
     return res.status(201).json({
       sucess: true,
-      message: `Pet with ID:${petId} deleted successfully`,
-      info: {
-        count: 1,
-      },
-      data: {
-        pet: deletedPet,
-      }
+      message: `Pet with the id '${petId}' was deleted successfully`,
+      data: { pet: deletedPet }
     })
   } catch (error) {
-    return res.status(500).json({
+    return res.status(error?.status || 500).json({
       sucess: false,
-      message: error.message,
+      message: error?.message || 'Unknow error',
+      data: { error }
     })
   }
 }
@@ -185,23 +176,20 @@ const getAllPets = async (req, res) => {
     if (!allPets) {
       return res.status(404).json({
         sucess: false,
-        message: 'There are no registered pets at this time!'
+        message: `Can't find any pets on database at this time.`,
+        data: { error }
       })
     }
     return res.status(201).json({
       sucess: true,
-      message: 'Pets info recovered successfully!',
-      info: {
-        count: allPets.length,
-      },
-      data: {
-        pets: allPets
-      }
+      message: 'All pets info recovered successfully.',
+      data: { pets: allPets }
     })
   } catch (error) {
-    return res.status(500).json({
+    return res.status(error?.status || 500).json({
       sucess: false,
-      message: error.message,
+      message: error?.message || 'Unknow error',
+      data: { error }
     })
   }
 }

@@ -107,7 +107,7 @@ const deleteOnePet = async (petId) => {
         message: `Can't find pet with the id '${petId}'.`
       }
     }
-    const deleteResult = await Pet.destroy()
+    const deleteResult = await pet.destroy()
     if (deleteResult[0] === 0) {
       throw {
         status: 400,
