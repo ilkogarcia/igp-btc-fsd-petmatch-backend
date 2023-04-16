@@ -172,6 +172,8 @@ const deleteOnePet = async (req, res) => {
 const getAllPets = async (req, res) => {
   const limit = parseInt(req.query.limit) || 5
   const page = parseInt(req.query.page) || 1
+  const offset = (page - 1) * limit
+
   if (limit <= 0 || page <= 0) {
     return res.status(400).json({
       status: false,
@@ -179,9 +181,17 @@ const getAllPets = async (req, res) => {
     })
   }
 
+  const specieId = parseInt(req.query.specieId) || 1
+  if (specieId <= 0) {
+    return res.status(400).json({
+      status: false,
+      message: `Filtering parameter 'specieId' have to be greater than 0.`
+    })
+  }
+
   try {
-    const allPets = await PetService.getAllPets(limit, page)
-    if (!allPets) {
+    const pets = await PetService.getAllPets(limit, offset, specieId)
+    if (!pets) {
       return res.status(404).json({
         sucess: false,
         message: `Can't find more pets on database at this time.`,
@@ -190,8 +200,17 @@ const getAllPets = async (req, res) => {
     }
     return res.status(201).json({
       sucess: true,
-      message: 'All pets info recovered successfully.',
-      data: allPets || []
+      message: 'Pets info recovered successfully.',
+      info: {
+        total: pets.count,
+        limit: limit,
+        page: page,
+        offset: offset,
+      },
+      data: {
+        pets: pets.rows || []
+      }
+
     })
   } catch (error) {
     return res.status(error?.status || 500).json({

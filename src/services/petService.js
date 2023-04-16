@@ -2,6 +2,7 @@
   * Service layer, responsible for returning reated data and 
   * not be responsible for sending the response to the client.
 */
+const { Op } = require('sequelize')
 const { Pet } = require('../models/index')
 
 /**
@@ -128,23 +129,14 @@ const deleteOnePet = async (petId) => {
  * Retrieves all pets.
  * @returns {Array} An array of all pet data.
  */
-const getAllPets = async (limit, page) => {
-  const offset = (page * limit) - limit
+const getAllPets = async (limit, offset, specieId) => {
   try {
     const pets = await Pet.findAndCountAll({
+      where: { specieId: specieId },
       limit: limit,
-      offset: offset,
+      offset: offset
     })
-    return {
-      info: {
-        total: pets.count,
-        limit: limit,
-        page: page,
-      },
-      data: {
-        pets: pets.rows
-      }
-    }
+    return pets  
   } catch (error) {
     throw { status: 500, message: error }
   }
