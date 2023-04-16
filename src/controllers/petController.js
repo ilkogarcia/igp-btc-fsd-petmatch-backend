@@ -170,9 +170,11 @@ const deleteOnePet = async (req, res) => {
  * @returns {Object} res - An object in JSON format that includes all pets recovered in an array.
  */
 const getAllPets = async (req, res) => {
-  const queryParams = req.query
+  const limit = parseInt(req.query.limit) || 10
+  const offset = parseInt(req.query.offset) || 0
+  
   try {
-    const allPets = await PetService.getAllPets(queryParams)
+    const allPets = await PetService.getAllPets(limit, offset)
     if (!allPets) {
       return res.status(404).json({
         sucess: false,
