@@ -11,14 +11,29 @@ const { Pet } = require('../models/index')
  */
 const createNewPet = async (petData) => {
   try {
-    const pet = await Pet.create(petData)
-    return {
-      success: true,
-      message: `Pet added successfully with id: ${pet.id}`,
-      data: { pet }
+    const petAlreadyAdded = await Pet.findOne({
+      where: {
+        specieId: petData.specieId,
+        breedId: petData.breedId,
+        shelterId: petData.shelterId,
+        gender: petData.gender,
+        name: petData.name,
+        age: petData.age,
+      }
+    })
+    if (petAlreadyAdded) {
+      throw {
+        status: 400,
+        message: `A pet from that specie-breed with same name '${petData.name}' and age '${petData.age}' already exist on that shelter.`
+      }
     }
+    const newPet = await Pet.create(petData)
+    return newPet
   } catch (error) {
-    throw new Error(`Something has gone wrong. Error: ${error?.message || 'Unknown error'}`)
+    throw {
+      status: error?.status || 500,
+      message: error?.message || error
+    }
   }
 }
 
@@ -31,11 +46,17 @@ const getOnePet = async (petId) => {
   try {
     const pet = await Pet.findByPk(petId)
     if (!pet) {
-      throw new Error(`No pet found with id: ${petId}`)
+      throw {
+        status: 400,
+        message: `Can't find pet with the id '${petId}'.`
+      }
     }
     return pet
   } catch (error) {
-    throw new Error(`Something has gone wrong. Error: ${error?.message || 'Unknown error'}`)
+    throw {
+      status: error?.status || 500,
+      message: error?.message || error
+    }
   }
 }
 
@@ -51,15 +72,24 @@ const updateOnePet = async (petId, petData) => {
       where: { id: petId }
     })
     if (updateResult[0] === 0) {
-      throw new Error(`No pet found with id: ${petId}`)
+      throw {
+        status: 400,
+        message: `Can't update pet with the id '${petId}'.`
+      }
     }
     const pet = await Pet.findByPk(petId)
     if (!pet) {
-      throw new Error(`No pet found with id: ${petId}`)
+      throw {
+        status: 400,
+        message: `Pet with the id '${petId}' was updated but for some reason we couldn't find the register.`
+      }
     }
     return pet
   } catch (error) {
-    throw new Error(`Something has gone wrong. ${error.message}`)
+    throw {
+      status: error?.status || 500,
+      message: error?.message || error
+    }
   }
 }
 
@@ -72,12 +102,25 @@ const deleteOnePet = async (petId) => {
   try {
     const pet = await Pet.findByPk(petId)
     if (!pet) {
-      throw new Error(`No pet found with id: ${petId}`)
+      throw {
+        status: 400,
+        message: `Can't find pet with the id '${petId}'.`
+      }
     }
-    await pet.destroy()
+    const deleteResult = await Pet.destroy()
+    if (deleteResult[0] === 0) {
+      throw {
+        status: 400,
+        message: `Pet with the id '${petId}' was found but for some reason we couldn't delete.`
+      }
+    }
+
     return pet
   } catch (error) {
-    throw new Error(`Something has gone wrong. Error: ${error?.message || 'Unknown error'}`)
+    throw {
+      status: error?.status || 500,
+      message: error?.message || error
+    }
   }
 }
 
@@ -92,7 +135,7 @@ const getAllPets = async () => {
     })
     return pets
   } catch (error) {
-    throw new Error(`Something has gone wrong. Error: ${error?.message || 'Unknown error'}`)
+    throw { status: 500, message: error }
   }
 }
 
