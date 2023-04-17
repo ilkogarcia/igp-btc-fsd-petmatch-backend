@@ -6,9 +6,11 @@ const PetService = require('../services/petService')
 
 /**
  * CRUD: Create a new pet in database.
+ * 
  * @param {Object} req - An object that includes a body element with data to create a new pet in the database.
  * @returns {Object} res - An object in JSON format that includes all info from the recently created pet.
  */
+
 const createNewPet = async (req, res) => {
   const { body } = req
   // Validate required properties not missing in the body
@@ -56,9 +58,11 @@ const createNewPet = async (req, res) => {
 
 /**
  * CRUD: Get an existing pet from the database.
+ * 
  * @param {Object} req - An object that includes as a parameter the pet Id to be deleted.
  * @returns {Object} res - An object in JSON format that includes the retrieved pet info.
  */
+
 const getOnePet = async (req, res) => {
   const { params: { petId } } = req
   if (!petId) {
@@ -95,6 +99,7 @@ const getOnePet = async (req, res) => {
  * @param {Object} req - An object that includes as a parameter the pet Id to be deleted.
  * @returns {Object} res - An object in JSON format that includes the updated pet info.
  */
+
 const updateOnePet = async (req, res) => {
   const { petId } = req.params
   const { body } = req
@@ -130,9 +135,11 @@ const updateOnePet = async (req, res) => {
 
 /**
  * CRUD: Delete an existing pet in the database by his Id.
+ * 
  * @param {Object} req - An object that includes as a parameter the pet Id to be deleted.
  * @returns {Object} res - An object in JSON format that includes the deleted pet info.
  */
+
 const deleteOnePet = async (req, res) => {
   const petId = req.params.petId
   if (!petId) {
@@ -166,9 +173,11 @@ const deleteOnePet = async (req, res) => {
 
 /**
  * Retrieves all pets that match a specific query.
+ * 
  * @param {Object} req - An object that includes in query parameters the filter to be applied.
  * @returns {Object} res - An object in JSON format that includes all pets recovered in an array.
  */
+
 const getAllPets = async (req, res) => {
   const limit = parseInt(req.query.limit) || 5
   const page = parseInt(req.query.page) || 1

@@ -6,6 +6,7 @@
 /**
  * Middlweware to determine if user is authorized
  * to access the specific resource.
+ * 
  * @param {object} req - Request object
  * @param {object} res - Response object
  * @param {function} next - Next function

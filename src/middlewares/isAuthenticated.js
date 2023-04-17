@@ -8,6 +8,7 @@ const { User } = require('../models')
 
 /**
  * Verify token received, decoded and handle some errors.
+ * 
  * @param {string} token - JWT token 
  * @param {string} secret -
  * @returns - Decoded token
@@ -33,6 +34,7 @@ const verifyToken = async (token, secret) => {
 
 /**
  * Middleware to determine if user is authenticated.
+ * 
  * @param {object} req - Request object
  * @param {object} res - Response object
  * @param {function} next - Next function

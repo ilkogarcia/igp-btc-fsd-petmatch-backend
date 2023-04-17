@@ -10,9 +10,11 @@ const { User, AccountType } = require('../models')
 
 /**
  * New user register in the application.
+ * 
  * @param {Object} req - An object that includes a body element with data to create a new user in the database.
  * @returns {Object} res - An object in JSON format that includes all info from the recently created user.
 */
+
 const registerUser = async (req, res) => {
   try {
     const { email, password } = req.body
@@ -95,10 +97,12 @@ const registerUser = async (req, res) => {
 
 /**
  * User login in the application.
+ * 
  * @param {Object} req - An object that includes a body element with data to login a user in the application. 
  * @returns {Object} res - An object in JSON format that includes all info from the recently created user
  * and a token to be used in the next requests.
 */
+
 const loginUser = async (req, res) => {
   const { email, password } = req.body  
 
@@ -166,9 +170,11 @@ const loginUser = async (req, res) => {
 
 /**
  * Logout user from the application 
+ * 
  * @param {Object} req - An object that includes a body element with data to logout a user from the application.
  * @returns {Object} res - An object in JSON format that includes a message. 
 */
+
 const logoutUser = async (req, res) => {
   try {
     // Destroy the user´s session and token
