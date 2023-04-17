@@ -9,10 +9,20 @@ const routes = require('./v1/routes/index')
 const dbConnect = require('./database/dbConnect')
 const { swaggerDocs: v1SwaggerDocs } = require('./v1/swagger')
 
+// Server
 const server = express()
 const PORT = process.env.PORT || 3000
 
+// Middlewares
 server.use(express.json())
+server.use((err, req, res, next) => {
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    return res.status(400).json({ sucess: false, message: err.message })
+  }
+  next()
+})
+
+// Routes
 server.use('/api/v1', routes)
 
 dbConnect
