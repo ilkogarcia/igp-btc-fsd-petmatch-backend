@@ -6,14 +6,14 @@ require('dotenv').config()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const nodeMailer = require('nodemailer')
-const { User, AccountType } = require('../models/index')
+const { User, AccountType } = require('../models')
 
 /**
  * New user register in the application.
  * @param {Object} req - An object that includes a body element with data to create a new user in the database.
  * @returns {Object} res - An object in JSON format that includes all info from the recently created user.
 */
-const register = async (req, res) => {
+const registerUser = async (req, res) => {
   try {
     const { email, password } = req.body
 
@@ -38,7 +38,7 @@ const register = async (req, res) => {
     const salt = await bcrypt.genSalt(10)
     const passwordHash = await bcrypt.hash(password, salt)
 
-    // Get the account type of the user
+    // Get the id defined for users account type
     const accountType = await AccountType.findOne({ where: { title: 'user' } })
     
     // Create a user object to pass it as an argument to our service
@@ -55,9 +55,9 @@ const register = async (req, res) => {
 
     // Generate the token to verify the user email
     const token = jwt.sign(
-      { id: user.id,
-        email: user.email,
-        accountTypeId: user.accountTypeId,
+      { userId: user.id,
+        userEmail: user.email,
+        userRole: accountType.title || 'user',
       }, process.env.JWT_SECRET, { expiresIn: '1d' })
 
     // Send the email to verify the user email
@@ -93,13 +93,13 @@ const register = async (req, res) => {
   }
 }
 
-/*
+/**
  * User login in the application.
  * @param {Object} req - An object that includes a body element with data to login a user in the application. 
  * @returns {Object} res - An object in JSON format that includes all info from the recently created user
  * and a token to be used in the next requests.
 */
-const login = async (req, res) => {
+const loginUser = async (req, res) => {
   const { email, password } = req.body  
 
   try {
@@ -137,11 +137,14 @@ const login = async (req, res) => {
       })
     }
 
+    // Get the id defined for users account type
+    const accountType = await AccountType.findOne({ where: { id: user.accountTypeId } })
+
     // Generate the user token
     const token = jwt.sign(
-      { id: user.id,
-        email: user.email,
-        accountTypeId: user.accountTypeId,
+      { userId: user.id,
+        userEmail: user.email,
+        userRole: accountType.title,
       }, process.env.JWT_SECRET, { expiresIn: '1d' })
 
     return res.status(201).json({
@@ -161,11 +164,34 @@ const login = async (req, res) => {
   }
 }
 
-const logout = async (req, res) => {
-  return res.json({ messsage: `This is the logout from ${req.baseUrl}` })
+/**
+ * Logout user from the application 
+ * @param {Object} req - An object that includes a body element with data to logout a user from the application.
+ * @returns {Object} res - An object in JSON format that includes a message. 
+*/
+const logoutUser = async (req, res) => {
+  try {
+    // Destroy the user´s session and token
+    req.session.destroy((err) => {
+      if (err) {
+        throw err
+      }
+      res.clearCookie(process.env.SESSION_NAME)
+      return res.status(200).json({
+        sucess: true,
+        message: 'User logged out successfully'
+      })
+    })
+  } catch (error) {
+    return res.status(500).json({
+      sucess: false,
+      message: error?.message || 'Internal server error',
+      data: error
+    })
+  }
 }
 
-const refresh = async (req, res) => {
+const refreshToken = async (req, res) => {
   return res.json({ messsage: `This is the refresh from ${req.baseUrl}` })
 }
 
@@ -182,10 +208,10 @@ const verifyEmail = async (req, res) => {
 }
 
 module.exports = {
-  register,
-  login,
-  logout,
-  refresh,
+  registerUser,
+  loginUser,
+  logoutUser,
+  refreshToken,
   forgotPassword,
   resetPassword,
   verifyEmail

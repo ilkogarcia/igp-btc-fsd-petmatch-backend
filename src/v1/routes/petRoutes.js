@@ -1,21 +1,23 @@
 const express = require('express')
-const PetController = require('../../controllers/petController')
 const router = express.Router()
+const isAuthenticated = require('../../middlewares/isAuthenticated')
+const isAuthorized = require('../../middlewares/isAuthorized')
+const PetController = require('../../controllers/petController')
 
 // POST /api/v1/pets 
-router.post('/', PetController.createNewPet)
+router.post('/', isAuthenticated, isAuthorized, PetController.createNewPet)
 
 // GET /api/v1/pets/:petId
-router.get('/:petId', PetController.getOnePet)
+router.get('/:petId', isAuthenticated, isAuthorized, PetController.getOnePet)
 
 // PUT /api/v1/pets/:petId
-router.put('/:petId', PetController.updateOnePet)
+router.put('/:petId', isAuthenticated, isAuthorized, PetController.updateOnePet)
 
 // DELETE /api/v1/pets/:petId
-router.delete('/:petId', PetController.deleteOnePet)
+router.delete('/:petId', isAuthenticated, isAuthorized, PetController.deleteOnePet)
 
 // GET /api/v1/pets
-router.get('/', PetController.getAllPets)
+router.get('/', isAuthenticated, isAuthorized, PetController.getAllPets)
 
 /**
 * @openapi

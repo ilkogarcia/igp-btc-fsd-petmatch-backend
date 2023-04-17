@@ -3,16 +3,16 @@ const router = express.Router()
 const authController = require('../../controllers/authController')
 
 // POST /auth/login
-router.post('/login', authController.login)
+router.post('/login', authController.loginUser)
 
 // POST /auth/register
-router.post('/register', authController.register)
+router.post('/register', authController.registerUser)
 
 // POST /auth/logout
-router.post('/logout', authController.logout)
+router.post('/logout', authController.logoutUser)
 
 // POST /auth/refresh
-router.post('/refresh', authController.refresh)
+router.post('/refresh', authController.refreshToken)
 
 // POST /auth/forgot-password
 router.post('/forgot-password', authController.forgotPassword)
