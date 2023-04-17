@@ -1,14 +1,21 @@
 const express = require('express')
 const PetController = require('../../controllers/petController')
-
 const router = express.Router()
 
-router
-  .post('/', PetController.createNewPet)
-  .get('/:petId', PetController.getOnePet)
-  .put('/:petId', PetController.updateOnePet)
-  .delete('/:petId', PetController.deleteOnePet)
-  .get('/', PetController.getAllPets)
+// POST /api/v1/pets 
+router.post('/', PetController.createNewPet)
+
+// GET /api/v1/pets/:petId
+router.get('/:petId', PetController.getOnePet)
+
+// PUT /api/v1/pets/:petId
+router.put('/:petId', PetController.updateOnePet)
+
+// DELETE /api/v1/pets/:petId
+router.delete('/:petId', PetController.deleteOnePet)
+
+// GET /api/v1/pets
+router.get('/', PetController.getAllPets)
 
 /**
 * @openapi

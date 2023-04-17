@@ -13,7 +13,7 @@ const { swaggerDocs: v1SwaggerDocs } = require('./v1/swagger')
 const server = express()
 const PORT = process.env.PORT || 3000
 
-// Middlewares
+// Middlewares and error handlers for JSON parsing
 server.use(express.json())
 server.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
