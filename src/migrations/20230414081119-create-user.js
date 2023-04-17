@@ -19,7 +19,6 @@ module.exports = {
         }
       },
       cityId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Cities',
@@ -28,7 +27,6 @@ module.exports = {
         }
       },
       stateProvinceId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'StateProvinces',
@@ -37,7 +35,6 @@ module.exports = {
         }
       },
       countryId: {
-        allowNull: false,
         type: Sequelize.INTEGER,
         references: {
           model: 'Countries',
@@ -46,7 +43,6 @@ module.exports = {
         }
       },
       username: {
-        allowNull: false,
         type: Sequelize.STRING
       },
       email: {
