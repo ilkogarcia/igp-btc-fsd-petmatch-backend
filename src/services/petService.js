@@ -3,7 +3,7 @@
   * not be responsible for sending the response to the client.
 */
 const { Op } = require('sequelize')
-const { Pet, PetSpecie, PetBreed } = require('../models/index')
+const { Pet, PetSpecie, PetBreed, PetStatus } = require('../models/index')
 
 /**
  * Creates a new pet in database.
@@ -126,25 +126,58 @@ const deleteOnePet = async (petId) => {
 }
 
 /**
- * Retrieves all pets.
- * @returns {Array} An array of all pet data.
- */
-const getAllPets = async (limit, offset, species, breed, gender) => {
+ * Retrieves all pets with the filter params and order params.
+ * @param {Number} limit - The limit of pets to retrieve.
+ * @param {Number} offset - The offset of pets to retrieve.
+ * @param {Object} filterParams - An object that contain all filters params to be used in the query.
+ * @param {Array} orderParams - Array of objects that contain two properties fild and direction to be used in order query.
+ * @returns {Object} The retrieved pets data.
+ * @returns {Number} The count of all pets with the filter params and order params.
+*/
+const getAllPets = async (limit, offset, filterParams, orderParams) => {
+  const { speciesName, breedName, petGender, petStatus, minAge, maxAge } = filterParams
+  
+  // Conditions to be used in the query
+  const genderCondition = {}
+  const ageConditions = {}
+  const speciesCondition = {}
+  const breedCondition = {}
+  const statusCondition = {}
+
+  // If the filter params are not null, add them to the conditions.
+  if (petGender) { genderCondition.gender = petGender }
+  if (minAge && maxAge) { ageConditions.age = { [Op.between]: [minAge, maxAge] }}
+  if (speciesName) { speciesCondition.specieCommonName = speciesName }
+  if (breedName) { breedCondition.breedName = breedName }
+  if (petStatus) { statusCondition.statusName = petStatus }
+
+  // If the order params are not null, go through the array to extract
+  // the pairs order field and order direction.
+  const orderConditions = orderParams
+    ? orderParams.map((order) => [order.field, order.direction])
+    : [['id', 'ASC']]
+
   try {
+    // Find all pets with the conditions and order, and return the count
     const pets = await Pet.findAndCountAll({
-      where: { gender: gender },
-      include: [{
-          model: PetBreed,
-          where: { breedName: breed },
+      where: { ...genderCondition, ...ageConditions },
+      include: [
+        { model: PetBreed,
+          where: { ...breedCondition },
           required: true,
-          include: [{
-            model: PetSpecie,
-            where: { specieCommonName: species },
-            required: true
-          }],
+            include: [
+              { model: PetSpecie,
+                where: { ...speciesCondition },
+                required: true,
+              }],
+        },
+        { model: PetStatus,
+          where: { ...statusCondition },
+          required: true,
         }],
       limit: limit,
-      offset: offset
+      offset: offset,
+      order: orderConditions,
     })
     return pets  
   } catch (error) {
