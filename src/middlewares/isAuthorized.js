@@ -1,7 +1,17 @@
 /* 
 * Determine if user has authorization by checking his account type set in the session(token).
 * Returning a 401 unauthorized error if the token is invalid.
-*/ 
+*/
+
+/**
+ * Middlweware to determine if user is authorized
+ * to access the specific resource.
+ * @param {object} req - Request object
+ * @param {object} res - Response object
+ * @param {function} next - Next function
+ * @returns - Response object
+ */
+
 const isAuthorized = async (req, res, next) => {
   try {
     // Check if user is an administrator
