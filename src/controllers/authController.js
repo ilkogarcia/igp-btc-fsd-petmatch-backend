@@ -7,7 +7,8 @@ const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const { addToBlacklist } = require('../helpers/auth')
 const { sendEmail } = require('../services/emailService')
-const { User, AccountType } = require('../models')
+const { getAllAccountTypes } = require('../services/accountTypeService')
+const { User } = require('../models')
 
 /**
  * New user register in the application.
@@ -42,7 +43,18 @@ const registerUser = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, salt)
 
     // Get the id defined for users account type
-    const accountType = await AccountType.findOne({ where: { title: 'user' } })
+    const accountTypes = await getAllAccountTypes({ title: 'user' })
+
+    // Check if the account type exists
+    if (!accountTypes.length) {
+      return res.status(500).json({
+        sucess: false,
+        message: 'Internal server error'
+      })
+    }
+
+    // Get the account type object (normally there will be only one)
+    const accountType = accountTypes[0]
     
     // Create a user object to pass it as an argument to our service
     const newUser = {

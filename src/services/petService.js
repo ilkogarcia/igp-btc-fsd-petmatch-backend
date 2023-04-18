@@ -1,7 +1,11 @@
 /**
-  * Service layer, responsible for returning reated data and 
-  * not be responsible for sending the response to the client.
-*/
+ * Pet service layer.
+ * 
+ * @module services/petService
+ * @requires models/index
+ * @requires sequelize/lib/operators
+ */
+
 const { Op } = require('sequelize')
 const { Pet, PetSpecie, PetBreed, PetStatus } = require('../models/index')
 
@@ -10,6 +14,7 @@ const { Pet, PetSpecie, PetBreed, PetStatus } = require('../models/index')
  * @param {Object} petData - The data for the pet to be created.
  * @returns {Object} The created pet data.
  */
+
 const createNewPet = async (petData) => {
   try {
     const petAlreadyAdded = await Pet.findOne({
@@ -43,6 +48,7 @@ const createNewPet = async (petData) => {
  * @param {Number} petId - The id of the pet to retrieve.
  * @returns {Object} The retrieved pet data.
  */
+
 const getOnePet = async (petId) => {
   try {
     const pet = await Pet.findByPk(petId)
@@ -67,6 +73,7 @@ const getOnePet = async (petId) => {
  * @param {Object} petData - The data to update for the pet.
  * @returns {Object} The updated pet data.
  */
+
 const updateOnePet = async (petId, petData) => {
   try {
     const updateResult = await Pet.update(petData, {
@@ -99,6 +106,7 @@ const updateOnePet = async (petId, petData) => {
  * @param {Number} petId - The id of the pet to delete.
  * @returns {Object} The deleted pet data.
  */
+
 const deleteOnePet = async (petId) => {
   try {
     const pet = await Pet.findByPk(petId)
@@ -133,7 +141,8 @@ const deleteOnePet = async (petId) => {
  * @param {Array} orderParams - Array of objects that contain two properties fild and direction to be used in order query.
  * @returns {Object} The retrieved pets data.
  * @returns {Number} The count of all pets with the filter params and order params.
-*/
+ */
+
 const getAllPets = async (limit, offset, filterParams, orderParams) => {
   const { speciesName, breedName, petGender, petStatus, minAge, maxAge } = filterParams
   
