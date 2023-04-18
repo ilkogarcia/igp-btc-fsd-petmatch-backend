@@ -4,6 +4,7 @@
 */
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
+const { isBlacklisted } = require('../helpers/auth')
 const { User } = require('../models')
 
 /**
@@ -43,13 +44,38 @@ const verifyToken = async (token, secret) => {
 
 const isAuthenticated = async (req, res, next) => {
   try {
-    // Retrive token from request header
-    const token = req.headers.authorization?.split(' ')[1]
+    // Check if authorization header is present
+    const authHeader = req.headers.authorization;
+    if (!authHeader) {
+      return res.status(401).json({
+        success: false,
+        message: 'Unauthorized. Authorization header missing'
+      });
+    }
+    
+    // Check if authorization header is valid
+    const [scheme, token] = authHeader.split(' ');
+    if (!/^Bearer$/i.test(scheme) || !token) {
+      return res.status(401).json({
+        sucess: false,
+        message: 'Unauthorized. Invalid scheme used in authorization header' });
+    }
+
+    // Check if token is provided
     if (!token) {
         return res.status(401).json({
         sucess: false,
-        message: 'Unauthorized - No token provided'
+        message: 'Unauthorized. No token provided'
         })
+    }
+
+    // Check if token is in blacklist
+
+    if (isBlacklisted(token)) {
+      return res.status(401).json({
+        sucess: false,
+        message: 'Unauthorized. Token is in blacklist'
+      })
     }
 
     // Decode and verify token received
@@ -57,18 +83,19 @@ const isAuthenticated = async (req, res, next) => {
     if (!decodedToken) {
         return res.status(401).json({
         sucess: false,
-        message: 'Unauthorized - Invalid token',
+        message: 'Unauthorized. Invalid or expired token',
         data : {
             error
         }
         })
     }
-    // Request will be denied if user id decoded from token is not found in database
+
+    // Check if user id decoded from token is not found in database
     const user = await User.findByPk(decodedToken.userId)
     if (!user) {
         return res.status(401).json({
         sucess: false,
-        message: 'Unauthorized - User not found'
+        message: 'Unauthorized. User not found'
         })
     }
 
@@ -76,9 +103,8 @@ const isAuthenticated = async (req, res, next) => {
     req.userId = decodedToken.userId
     req.userEmail = decodedToken.userEmail
     req.userRole = decodedToken.userRole
-
-    console.log('User is authenticated', req.userId, req.userEmail, req.userRole)
     next()
+
   } catch (error) {
     return res.status(500).json({
       sucess: false,
