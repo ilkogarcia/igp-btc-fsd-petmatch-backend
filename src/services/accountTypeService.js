@@ -17,7 +17,19 @@ const { AccountType } = require('../models/index')
 
 const createNewAccountType = async (accountTypeData) => {
   try {
-    return
+    const accountTypeAlreadyAdded = await AccountType.findOne({
+      where: {
+        title: accountTypeData.title
+      }
+    })
+    if (accountTypeAlreadyAdded) {
+      throw {
+        status: 400,
+        message: `An accountType with the title '${accountTypeData.title}' already exist.`
+      }
+    }
+    const newAccountType = await AccountType.create(accountTypeData)
+    return newAccountType
   } catch (error) {
     throw {
       status: error?.status || 500,
@@ -34,7 +46,14 @@ const createNewAccountType = async (accountTypeData) => {
 
 const getOneAccountType = async (accountTypeId) => {
   try {
-    return
+    const accountType = await AccountType.findByPk(accountTypeId)
+    if (!accountType) {
+      throw {
+        status: 400,
+        message: `Can't find accountType with the id '${accountTypeId}'.`
+      }
+    }
+    return accountType
 } catch (error) {
     throw {
       status: error?.status || 500,
@@ -52,7 +71,17 @@ const getOneAccountType = async (accountTypeId) => {
 
 const updateOneAccountType = async (accountTypeId, accountTypeData) => {
   try {
-    return
+    const updateResult = await AccountType.update(accountTypeData, {
+      where: { id: accountTypeId }
+    })
+    if (updateResult[0] === 0 ) {
+      throw {
+        status: 400,
+        message: `Can't update the accountType with the id '${accountTypeId}'.`
+      }
+    }
+    const accountType = await AccountType.findByPk(accountTypeId)
+    return accountType
 } catch (error) {
     throw {
       status: error?.status || 500,
@@ -69,7 +98,15 @@ const updateOneAccountType = async (accountTypeId, accountTypeData) => {
 
 const deleteOneAccountType = async (accountTypeId) => {
   try {
-    return
+    const accountType = await AccountType.findByPk(accountTypeId)
+    if (!accountType) {
+      throw {
+        status: 400,
+        message: `Can't find accountType with the id '${accountTypeId}'.`
+      }
+    }
+    await accountType.destroy({ where: { id: accountTypeId } })
+    return accountType
 } catch (error) {
     throw {
       status: error?.status || 500,
@@ -105,10 +142,33 @@ const getAllAccountTypes = async (filterParams) => {
   }
 }
 
+const findAccountTypeByTitle = async (title) => {
+  try {
+    const accountType = await AccountType.findOne({
+      where: {
+        title: title
+      }
+    })
+    if (!accountType) {
+      throw {
+        status: 400,
+        message: `Can't find accountType with the title '${title}'.`
+      }
+    }
+    return accountType
+  } catch (error) {
+    throw {
+      status: error?.status || 500,
+      message: error?.message || error
+    }
+  }
+}
+
 module.exports = {
   createNewAccountType,
   getOneAccountType,
   updateOneAccountType,
   deleteOneAccountType,
-  getAllAccountTypes
+  getAllAccountTypes,
+  findAccountTypeByTitle
 }

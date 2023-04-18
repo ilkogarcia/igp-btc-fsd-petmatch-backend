@@ -11,7 +11,7 @@ const { User } = require('../models')
  * Verify token received, decoded and handle some errors.
  * 
  * @param {string} token - JWT token 
- * @param {string} secret -
+ * @param {string} secret - Secret key
  * @returns - Decoded token
  */
 
@@ -79,7 +79,7 @@ const isAuthenticated = async (req, res, next) => {
     }
 
     // Decode and verify token received
-    const decodedToken = await verifyToken(token, process.env.JWT_SECRET)
+    const decodedToken = await verifyToken(token, process.env.SECRET_WEB)
     if (!decodedToken) {
         return res.status(401).json({
         sucess: false,

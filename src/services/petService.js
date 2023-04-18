@@ -86,12 +86,6 @@ const updateOnePet = async (petId, petData) => {
       }
     }
     const pet = await Pet.findByPk(petId)
-    if (!pet) {
-      throw {
-        status: 400,
-        message: `Pet with the id '${petId}' was updated but for some reason we couldn't find the register.`
-      }
-    }
     return pet
   } catch (error) {
     throw {
@@ -147,21 +141,13 @@ const getAllPets = async (limit, offset, filterParams, orderParams) => {
   const { speciesName, breedName, petGender, petStatus, minAge, maxAge } = filterParams
   
   // Conditions to be used in the query
-  const genderCondition = {}
-  const ageConditions = {}
-  const speciesCondition = {}
-  const breedCondition = {}
-  const statusCondition = {}
+  const speciesCondition = (speciesName) ? { specieCommonName : { [Op.like]: `${speciesName}` }} : {}
+  const breedCondition = (breedName) ? { breedName : { [Op.like]: `${breedName}` }} : {}
+  const genderCondition = petGender ? { gender : { [Op.like]: `${petGender}`}} : {}
+  const statusCondition = (petStatus) ? { statusName : { [Op.like]: `${petStatus}` }} : {}
+  const ageConditions = (minAge && maxAge)? { age : { [Op.between]: [minAge, maxAge] }} : {}
 
-  // If the filter params are not null, add them to the conditions.
-  if (petGender) { genderCondition.gender = petGender }
-  if (minAge && maxAge) { ageConditions.age = { [Op.between]: [minAge, maxAge] }}
-  if (speciesName) { speciesCondition.specieCommonName = speciesName }
-  if (breedName) { breedCondition.breedName = breedName }
-  if (petStatus) { statusCondition.statusName = petStatus }
-
-  // If the order params are not null, go through the array to extract
-  // the pairs order field and order direction.
+  // Order conditions to be used in the query
   const orderConditions = orderParams
     ? orderParams.map((order) => [order.field, order.direction])
     : [['id', 'ASC']]
