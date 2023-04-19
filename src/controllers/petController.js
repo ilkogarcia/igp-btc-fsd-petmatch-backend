@@ -6,7 +6,7 @@ const PetService = require('../services/petService')
 
 /**
  * CRUD: Create a new pet in database.
- * 
+ *
  * @param {Object} req - An object that includes a body element with data to create a new pet in the database.
  * @returns {Object} res - An object in JSON format that includes all info from the recently created pet.
  */
@@ -38,7 +38,7 @@ const createNewPet = async (req, res) => {
     description: body.description,
     imageUrl: body.imageUrl,
     vaccinationStatus: body.vaccinationStatus,
-    spayedNeutered: body.spayedNeutered,
+    spayedNeutered: body.spayedNeutered
   }
   try {
     const createdPet = await PetService.createNewPet(newPet)
@@ -58,7 +58,7 @@ const createNewPet = async (req, res) => {
 
 /**
  * CRUD: Get an existing pet from the database.
- * 
+ *
  * @param {Object} req - An object that includes as a parameter the pet Id to be deleted.
  * @returns {Object} res - An object in JSON format that includes the retrieved pet info.
  */
@@ -68,7 +68,7 @@ const getOnePet = async (req, res) => {
   if (!petId) {
     return res.status(400).json({
       status: false,
-      message: `Parameter ':petId' can not be empty`
+      message: 'Parameter \':petId\' can not be empty'
     })
   }
   try {
@@ -135,7 +135,7 @@ const updateOnePet = async (req, res) => {
 
 /**
  * CRUD: Delete an existing pet in the database by his Id.
- * 
+ *
  * @param {Object} req - An object that includes as a parameter the pet Id to be deleted.
  * @returns {Object} res - An object in JSON format that includes the deleted pet info.
  */
@@ -173,7 +173,7 @@ const deleteOnePet = async (req, res) => {
 
 /**
  * Retrieves all pets that match a specific query.
- * 
+ *
  * @param {Object} req - An object that includes in query parameters the filter to be applied.
  * @returns {Object} res - An object in JSON format that includes all pets recovered in an array.
  */
@@ -181,11 +181,11 @@ const deleteOnePet = async (req, res) => {
 const getAllPets = async (req, res) => {
   const limit = parseInt(req.query.limit) || 5
   const page = parseInt(req.query.page) || 1
-
+  // TODO: refactor to use default values in case <= 0
   if (limit <= 0 || page <= 0) {
     return res.status(400).json({
       status: false,
-      message: `Pagination parameters 'limit' and 'page' have to be greater than 0.`
+      message: 'Pagination parameters \'limit\' and \'page\' have to be greater than 0.'
     })
   }
 
@@ -198,7 +198,7 @@ const getAllPets = async (req, res) => {
     if (!pets) {
       return res.status(404).json({
         sucess: false,
-        message: `Can't find more pets on database at this time.`,
+        message: 'Can\'t find more pets on database at this time.',
         data: error
       })
     }
@@ -207,9 +207,9 @@ const getAllPets = async (req, res) => {
       message: 'Pets info recovered successfully.',
       info: {
         total: pets.count,
-        limit: limit,
-        page: page,
-        offset: offset,
+        limit,
+        page,
+        offset
       },
       data: {
         pets: pets.rows || []

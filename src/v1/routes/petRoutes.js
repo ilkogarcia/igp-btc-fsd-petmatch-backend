@@ -4,7 +4,7 @@ const isAuthenticated = require('../../middlewares/isAuthenticated')
 const isAuthorized = require('../../middlewares/isAuthorized')
 const PetController = require('../../controllers/petController')
 
-// POST /api/v1/pets 
+// POST /api/v1/pets
 router.post('/', isAuthenticated, isAuthorized, PetController.createNewPet)
 
 // GET /api/v1/pets/:petId

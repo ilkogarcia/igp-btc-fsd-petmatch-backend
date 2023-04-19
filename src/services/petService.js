@@ -1,6 +1,6 @@
 /**
  * Pet service layer.
- * 
+ *
  * @module services/petService
  * @requires models/index
  * @requires sequelize/lib/operators
@@ -24,7 +24,7 @@ const createNewPet = async (petData) => {
         shelterId: petData.shelterId,
         gender: petData.gender,
         name: petData.name,
-        age: petData.age,
+        age: petData.age
       }
     })
     if (petAlreadyAdded) {
@@ -139,13 +139,13 @@ const deleteOnePet = async (petId) => {
 
 const getAllPets = async (limit, offset, filterParams, orderParams) => {
   const { speciesName, breedName, petGender, petStatus, minAge, maxAge } = filterParams
-  
+
   // Conditions to be used in the query
-  const speciesCondition = (speciesName) ? { specieCommonName : { [Op.like]: `${speciesName}` }} : {}
-  const breedCondition = (breedName) ? { breedName : { [Op.like]: `${breedName}` }} : {}
-  const genderCondition = petGender ? { gender : { [Op.like]: `${petGender}`}} : {}
-  const statusCondition = (petStatus) ? { statusName : { [Op.like]: `${petStatus}` }} : {}
-  const ageConditions = (minAge && maxAge)? { age : { [Op.between]: [minAge, maxAge] }} : {}
+  const speciesCondition = (speciesName) ? { specieCommonName: { [Op.like]: `${speciesName}` } } : {}
+  const breedCondition = (breedName) ? { breedName: { [Op.like]: `${breedName}` } } : {}
+  const genderCondition = petGender ? { gender: { [Op.like]: `${petGender}` } } : {}
+  const statusCondition = (petStatus) ? { statusName: { [Op.like]: `${petStatus}` } } : {}
+  const ageConditions = (minAge && maxAge) ? { age: { [Op.between]: [minAge, maxAge] } } : {}
 
   // Order conditions to be used in the query
   const orderConditions = orderParams
@@ -157,24 +157,27 @@ const getAllPets = async (limit, offset, filterParams, orderParams) => {
     const pets = await Pet.findAndCountAll({
       where: { ...genderCondition, ...ageConditions },
       include: [
-        { model: PetBreed,
+        {
+          model: PetBreed,
           where: { ...breedCondition },
           required: true,
-            include: [
-              { model: PetSpecie,
-                where: { ...speciesCondition },
-                required: true,
-              }],
+          include: [
+            {
+              model: PetSpecie,
+              where: { ...speciesCondition },
+              required: true
+            }]
         },
-        { model: PetStatus,
+        {
+          model: PetStatus,
           where: { ...statusCondition },
-          required: true,
+          required: true
         }],
-      limit: limit,
-      offset: offset,
-      order: orderConditions,
+      limit,
+      offset,
+      order: orderConditions
     })
-    return pets  
+    return pets
   } catch (error) {
     throw { status: 500, message: error }
   }
