@@ -1,6 +1,5 @@
 /**
  * Pet service layer.
- *
  * @module services/petService
  * @requires models/index
  * @requires sequelize/lib/operators

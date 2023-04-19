@@ -1,22 +1,32 @@
+/**
+ * @file petRoutes.js
+ * @description Pet routes
+ */
+
+// Import express and create router
 const express = require('express')
 const router = express.Router()
+
+// Import middlewares
 const isAuthenticated = require('../../middlewares/isAuthenticated')
 const isAuthorized = require('../../middlewares/isAuthorized')
+
+// Import controllers
 const PetController = require('../../controllers/petController')
 
-// POST /api/v1/pets
+// POST /api/v1/pets - Create a new pet
 router.post('/', isAuthenticated, isAuthorized, PetController.createNewPet)
 
-// GET /api/v1/pets/:petId
+// GET /api/v1/pets/:petId - Get a pet by id
 router.get('/:petId', isAuthenticated, isAuthorized, PetController.getOnePet)
 
-// PUT /api/v1/pets/:petId
+// PUT /api/v1/pets/:petId - Update a pet by id
 router.put('/:petId', isAuthenticated, isAuthorized, PetController.updateOnePet)
 
-// DELETE /api/v1/pets/:petId
+// DELETE /api/v1/pets/:petId - Delete a pet by id
 router.delete('/:petId', isAuthenticated, isAuthorized, PetController.deleteOnePet)
 
-// GET /api/v1/pets
+// GET /api/v1/pets - Get all pets
 router.get('/', isAuthenticated, isAuthorized, PetController.getAllPets)
 
 /**

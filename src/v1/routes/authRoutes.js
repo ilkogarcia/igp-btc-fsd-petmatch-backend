@@ -1,3 +1,8 @@
+/**
+ * @file authRoutes.js
+ * @description Authentication routes
+ */
+
 // Import express and create router
 const express = require('express')
 const router = express.Router()
@@ -7,7 +12,6 @@ const isAuthenticated = require('../../middlewares/isAuthenticated')
 const registerPolicy = require('../../middlewares/registerPolicy')
 const loginPolicy = require('../../middlewares/loginPolicy')
 const forgotPasswordPolicy = require('../../middlewares/forgotPasswordPolicy')
-const resetPasswordPolicy = require('../../middlewares/resetPasswordPolicy')
 
 // Import controllers
 const authController = require('../../controllers/authController')

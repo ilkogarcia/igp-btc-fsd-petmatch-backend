@@ -1,11 +1,15 @@
 const express = require('express')
 const router = express.Router()
 const petRoutes = require('./petRoutes')
+const userRoutes = require('./userRoutes')
 
-// Auth endpoints Routes
+// Auth endpoints routes
 router.use('/auth', require('./authRoutes'))
 
-// Pets endpoints Routes
+// Users endpoints routes
+router.use('/users', userRoutes)
+
+// Pets endpoints routes
 router.use('/pets', petRoutes)
 
 // API Welcome endpoint route
