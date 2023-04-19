@@ -7,6 +7,7 @@ const isAuthenticated = require('../../middlewares/isAuthenticated')
 const registerPolicy = require('../../middlewares/registerPolicy')
 const loginPolicy = require('../../middlewares/loginPolicy')
 const forgotPasswordPolicy = require('../../middlewares/forgotPasswordPolicy')
+const resetPasswordPolicy = require('../../middlewares/resetPasswordPolicy')
 
 // Import controllers
 const authController = require('../../controllers/authController')

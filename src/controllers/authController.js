@@ -278,7 +278,7 @@ const forgotPassword = async (req, res) => {
     const token = jwt.sign({
       userId: user.id,
       userEmail: user.email
-    }, process.env.SECRET_EMAIL, { expiresIn: '10m' })
+    }, process.env.SECRET_EMAIL, { expiresIn: '1h' })
 
     // Create a reset password URL using the generated token.
     const resetpasswordURL = `${process.env.API_URL}/auth/reset-password?token=${token}`
