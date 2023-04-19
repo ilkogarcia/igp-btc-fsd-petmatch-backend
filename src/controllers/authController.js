@@ -2,13 +2,19 @@
  * This file contains all the functions that will be used to handle the
  * authentication of the user.
 */
+
+// Import the required dependencies
 require('dotenv').config()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const { addToBlacklist } = require('../helpers/auth')
+
+// Import the required services
 const { sendEmail } = require('../services/emailService')
 const { getOneAccountType, findAccountTypeByTitle } = require('../services/accountTypeService')
-const { User } = require('../models')
+const { createNewUser, updateOneUser, findOneUser } = require('../services/userService')
+
+// Import the required helpers
+const { addToBlacklist } = require('../helpers/auth')
 
 /**
  * New user register in the application.
@@ -22,7 +28,7 @@ const registerUser = async (req, res) => {
     const { email, password } = req.body
 
     // Check if the user already exists
-    const existingUser = await User.findOne({ where: { email } })
+    const existingUser = await findOneUser({ userEmail: email })
     if (existingUser) {
       return res.status(409).json({
         sucess: false,
@@ -53,7 +59,7 @@ const registerUser = async (req, res) => {
     }
 
     // Create the user in the database
-    const user = await User.create(newUser)
+    const user = await createNewUser(newUser)
 
     // Generate a token to verify the user email
     const token = jwt.sign({
@@ -105,7 +111,7 @@ const verifyEmail = async (req, res) => {
     const decodedEmail = decodedToken.userEmail
 
     // Search for the user to be updated on the database
-    const user = await User.findOne({ where: { email: decodedEmail } })
+    const user = await findOneUser({ userEmail: decodedEmail })
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -114,7 +120,7 @@ const verifyEmail = async (req, res) => {
     }
 
     // Update the user email verification status
-    const updatedUser = await User.update({ isVerified: true }, { where: { email: decodedEmail } })
+    const updatedUser = await updateOneUser(user.id, { isVerified: true })
     if (!updatedUser) {
       return res.status(400).json({
         success: false,
@@ -148,7 +154,7 @@ const loginUser = async (req, res) => {
     const { email, password } = req.body
 
     // Check if the user exists
-    const user = await User.findOne({ where: { email } })
+    const user = await findOneUser({ userEmail: email })
     if (!user) {
       return res.status(401).json({
         sucess: false,
@@ -250,7 +256,7 @@ const forgotPassword = async (req, res) => {
     const { email } = req.body
 
     // Check if the user exists
-    const user = await User.findOne({ where: { email } })
+    const user = await findOneUser({ userEmail: email })
     if (!user) {
       return res.status(401).json({
         sucess: false,
@@ -323,7 +329,7 @@ const resetPassword = async (req, res) => {
     const decodedEmail = decodedToken.userEmail
 
     // Search for the user that wants to updated his password
-    const user = await User.findOne({ where: { email: decodedEmail } })
+    const user = await findOneUser({ userEmail: decodedEmail })
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -343,7 +349,7 @@ const resetPassword = async (req, res) => {
     const passwordHash = await bcrypt.hash(newPassword, salt)
 
     // Update the user password
-    const updatedUser = await User.update({ passwordHash }, { where: { email: decodedEmail } })
+    const updatedUser = await updateOneUser(user.id, { passwordHash })
     if (!updatedUser) {
       return res.status(400).json({
         success: false,

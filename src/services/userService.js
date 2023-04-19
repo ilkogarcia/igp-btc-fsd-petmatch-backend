@@ -207,14 +207,21 @@ const getAllUsers = async (limit, offset, filterParams, orderParams) => {
  * @returns {Object} user - An object that includes all the user data that was found.
  */
 
-const findUserByEmail = async (userEmail) => {
+const findOneUser = async (filterParams) => {
   try {
+    // Desctructure the filterParams object to get the filter values
+    const { userId, userEmail } = filterParams
+
+    // Conditions to be used in all where clauses
+    const idCondition = (userId) ? { id: { [Op.like]: `${userId}` } } : {}
+    const emailCondition = (userEmail) ? { email: { [Op.like]: `${userEmail}` } } : {}
+
     // Get the user by email and throw an error if not found
-    const user = await User.findOne({ where: { email: userEmail } })
+    const user = await User.findOne({ where: { ...idCondition, ...emailCondition } })
     if (!user) {
       throw {
         status: 404,
-        message: `Can't find user with the email '${userEmail}'.`
+        message: 'Can\'t find user with that id or email.'
       }
     }
 
@@ -233,5 +240,5 @@ module.exports = {
   updateOneUser,
   deleteOneUser,
   getAllUsers,
-  findUserByEmail
+  findOneUser
 }
