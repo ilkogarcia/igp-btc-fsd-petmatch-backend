@@ -1,9 +1,8 @@
 
 # PetMatch.es
 
-This is a backend Node.js project for **"Bringing forever homes and loving pets together"**. The project uses Express web application framework and many other libraries, and connects to a MySQL database using Sequelize ORM.
+**"Bringing forever homes and loving pets together"**.
 
-### About PetMatch.es
 PetMatch.es is a platform that unites forever homes and loving pets. A pet adoption platform that allows users to search for available pets for adoption and connect with local shelters or rescue organizations.
 
 > _"To connect one million homeless pets with loving forever homes through PetMatch." (BHAG)_
@@ -14,7 +13,51 @@ Users of this platform, by adopting and/or contributing to the adoption of a pet
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-## Getting Started
+---
+## API
+
+Welcome to PetMatch API! Our API allows you to access and manage data from our platform using HTTP requests. This documentation will guide you through the available endpoints and their functionalities.
+
+Our API is built with Node.js and uses Express.js as a framework. We use MySQL as our database management system.
+
+To start using the API, you don't need to fork the project or install anything on your computer. You just need to know the base URL of our API, which is http://localhost:3000/api/v1/. From there, you can start making HTTP requests to the available endpoints.
+
+### Endpoints
+
+Our API has the following endpoints:
+
+- `GET /users`: Returns a list of all users in the platform
+- `GET /users/:id`: Returns the user with the specified ID
+- `POST /users`: Creates a new user
+- `PUT /users/:id`: Updates the user with the specified ID
+- `DELETE /users/:id`: Deletes the user with the specified ID
+
+All these endpoints can be accessed using HTTP requests to the base URL of our API (http://localhost:3000/api/v1/).
+
+### Authentication
+
+Some of the endpoints in our API require authentication. To authenticate, you need to send an HTTP POST request to the /auth/login endpoint with your email and password in the request body. If your credentials are correct, you will receive a JSON Web Token (JWT) in the response. You should include this token in the Authorization header of all subsequent requests to the authenticated endpoints.
+
+### Error handling
+
+Our API returns standard HTTP status codes for all requests. If an error occurs, the response will include an error message in the message property of the response body.
+
+### API Documentation
+To view the API documentation for this project, navigate to http://localhost:3000/api/v1/docs/ in your web browser. This documentation is generated automatically using the Swagger UI library and provides detailed information on each endpoint in the API.
+
+The documentation includes information on each route, the expected request parameters, and the expected response format. It also provides examples of requests and responses to help you understand how to use the API.
+
+To use the API documentation, simply navigate to the desired endpoint using the menu on the left-hand side of the page. You can then view the available operations for that endpoint, including GET, POST, PUT, DELETE, and others.
+
+For each operation, the documentation provides detailed information on the expected request parameters, as well as any optional parameters and their expected values. It also provides information on the expected response format, including any errors that may occur and their associated error codes.
+
+### Conclusion
+
+We hope this introduction helps you get started with our API! For more detailed information on the available endpoints, please refer to the API documentation available at http://localhost:3000/api/v1/docs/. If you have any questions or issues, feel free to reach out to our support team.
+
+
+---
+## Getting started
 
 To get started with the project, follow these steps:
 
@@ -23,7 +66,8 @@ To get started with the project, follow these steps:
 1. Configure the database connection parameters in the .env file
 1. Run npm run start to start the server
 
-## Project Structure
+---
+## Project structure
 
 The project structure is organized as follows:
 
@@ -51,7 +95,8 @@ Sure, here is a description of each folder in your project structure:
 
 - `index.js`: This is the main entry point for your project. It typically includes the code to start your server, establish your database connection, and configure any middleware or other settings required by your application.
 
-## How to contribute to the Code Base
+---
+## How to contribute to the code base
 
 Contributions to the project are welcome and appreciated! Here's how you can contribute:
 
@@ -64,9 +109,11 @@ Contributions to the project are welcome and appreciated! Here's how you can con
 
 Please ensure that your code adheres to the project's coding standards and passes all tests before submitting a pull request. Also, please make sure to include a clear description of your changes in the pull request.
 
-## Contributing Guidelines
+### Contributing Guidelines
 
 Thank you for considering contributing to this project! Before making a contribution, please read and follow the guidelines detailed in the [CONTRIBUTING.md](./CONTRIBUTING.md) file.
+
+---
 
 ## Acknowledgments
 
