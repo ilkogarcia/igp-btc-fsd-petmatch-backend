@@ -29,6 +29,15 @@ router.delete('/:petId', isAuthenticated, isAuthorized, PetController.deleteOneP
 // GET /api/v1/pets - Get all pets
 router.get('/', isAuthenticated, isAuthorized, PetController.getAllPets)
 
+// PUT /api/v1/pets/:petId/like - Like a pet
+router.put('/:petId/like', isAuthenticated, isAuthorized, PetController.likeOnePet)
+
+// PUT /api/v1/pets/:petId/save - Save a pet
+router.put('/:petId/save', isAuthenticated, isAuthorized, PetController.saveOnePet)
+
+// PUT /api/v1/pets/:petId/fav - Favorite a pet
+router.put('/:petId/fav', isAuthenticated, isAuthorized, PetController.favOnePet)
+
 /**
 * @openapi
 * paths:

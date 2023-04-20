@@ -33,6 +33,11 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId'
       })
 
+      User.belongsToMany(models.Pet, {
+        through: models.UserPet,
+        foreignKey: 'userId'
+      })
+
       // define new associations here
     }
   }

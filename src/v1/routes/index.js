@@ -46,6 +46,9 @@ router.use('/pet-statuses', require('./petStatusRoutes'))
 // Application statuses endpoints routes
 router.use('/application-statuses', require('./applicationStatusRoutes'))
 
+// User-pets endpoints routes
+router.use('/user-pets', require('./userPetRoutes'))
+
 // API Welcome endpoint route
 router.get('/', async (req, res) => {
   return res.json({ messsage: `👋 Hello from ${req.baseUrl}` })

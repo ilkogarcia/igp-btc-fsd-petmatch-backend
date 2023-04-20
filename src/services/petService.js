@@ -10,7 +10,7 @@
 const { Op } = require('sequelize')
 
 // Import models used by this service
-const { Pet, PetSpecie, PetBreed, PetStatus } = require('../models/index')
+const { Pet, PetSpecie, PetBreed, PetStatus, UserPet } = require('../models/index')
 
 /**
  * Creates a new pet in database.
@@ -186,10 +186,88 @@ const getAllPets = async (limit, offset, filterParams, orderParams) => {
   }
 }
 
+const likeOnePet = async (petId, userId) => {
+  try {
+    const pet = await Pet.findByPk(petId)
+    if (!pet) {
+      throw {
+        status: 400,
+        message: `Can't find pet with the id '${petId}'.`
+      }
+    }
+    const [userPet, isCreated] = await UserPet.findOrCreate({
+      where: { userId, petId },
+      defaults: { userId, petId, myFavorite: false, isSaved: false, hasLike: true }
+    })
+    if (!isCreated) {
+      await userPet.update({ hasLike: !userPet.hasLike })
+    }
+    return userPet
+  } catch (error) {
+    throw {
+      status: error?.status || 500,
+      message: error?.message || error
+    }
+  }
+}
+
+const saveOnePet = async (petId, userId) => {
+  try {
+    const pet = await Pet.findByPk(petId)
+    if (!pet) {
+      throw {
+        status: 400,
+        message: `Can't find pet with the id '${petId}'.`
+      }
+    }
+    const [userPet, isCreated] = await UserPet.findOrCreate({
+      where: { userId, petId },
+      defaults: { userId, petId, myFavorite: false, isSaved: true, hasLike: false }
+    })
+    if (!isCreated) {
+      await userPet.update({ isSaved: !userPet.isSaved })
+    }
+    return userPet
+  } catch (error) {
+    throw {
+      status: error?.status || 500,
+      message: error?.message || error
+    }
+  }
+}
+
+const favOnePet = async (petId, userId) => {
+  try {
+    const pet = await Pet.findByPk(petId)
+    if (!pet) {
+      throw {
+        status: 400,
+        message: `Can't find pet with the id '${petId}'.`
+      }
+    }
+    const [userPet, isCreated] = await UserPet.findOrCreate({
+      where: { userId, petId },
+      defaults: { userId, petId, myFavorite: true, isSaved: false, hasLike: false }
+    })
+    if (!isCreated) {
+      await userPet.update({ myFavorite: !userPet.myFavorite })
+    }
+    return userPet
+  } catch (error) {
+    throw {
+      status: error?.status || 500,
+      message: error?.message || error
+    }
+  }
+}
+
 module.exports = {
   createNewPet,
   getOnePet,
   updateOnePet,
   deleteOnePet,
-  getAllPets
+  getAllPets,
+  likeOnePet,
+  saveOnePet,
+  favOnePet
 }

@@ -1,3 +1,4 @@
+/* eslint-disable no-throw-literal */
 /*
 * Determine if user is authenticated by checking if the token used in the request
 * is valid. Returning a 401 unauthorized error if the token is invalid.
@@ -83,10 +84,7 @@ const isAuthenticated = async (req, res, next) => {
     if (!decodedToken) {
       return res.status(401).json({
         sucess: false,
-        message: 'Unauthorized. Invalid or expired token',
-        data: {
-          error
-        }
+        message: 'Unauthorized. Invalid or expired token'
       })
     }
 
@@ -103,6 +101,7 @@ const isAuthenticated = async (req, res, next) => {
     req.userId = decodedToken.userId
     req.userEmail = decodedToken.userEmail
     req.userRole = decodedToken.userRole
+
     next()
   } catch (error) {
     return res.status(500).json({

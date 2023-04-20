@@ -6,7 +6,6 @@ const PetService = require('../services/petService')
 
 /**
  * CRUD: Create a new pet in database.
- *
  * @param {Object} req - An object that includes a body element with data to create a new pet in the database.
  * @returns {Object} res - An object in JSON format that includes all info from the recently created pet.
  */
@@ -58,7 +57,6 @@ const createNewPet = async (req, res) => {
 
 /**
  * CRUD: Get an existing pet from the database.
- *
  * @param {Object} req - An object that includes as a parameter the pet Id to be deleted.
  * @returns {Object} res - An object in JSON format that includes the retrieved pet info.
  */
@@ -135,7 +133,6 @@ const updateOnePet = async (req, res) => {
 
 /**
  * CRUD: Delete an existing pet in the database by his Id.
- *
  * @param {Object} req - An object that includes as a parameter the pet Id to be deleted.
  * @returns {Object} res - An object in JSON format that includes the deleted pet info.
  */
@@ -173,7 +170,6 @@ const deleteOnePet = async (req, res) => {
 
 /**
  * Retrieves all pets that match a specific query.
- *
  * @param {Object} req - An object that includes in query parameters the filter to be applied.
  * @returns {Object} res - An object in JSON format that includes all pets recovered in an array.
  */
@@ -225,10 +221,82 @@ const getAllPets = async (req, res) => {
   }
 }
 
+const likeOnePet = async (req, res) => {
+  const { petId } = req.params
+  try {
+    const likedPet = await PetService.likeOnePet(petId, req.userId)
+    if (!likedPet) {
+      return res.status(404).json({
+        success: false,
+        message: `Can't find pet with the id '${petId}'.`
+      })
+    }
+    return res.status(201).json({
+      sucess: true,
+      message: `Pet with id '${petId}' has received your (un)like successfully.`
+    })
+  } catch (error) {
+    return res.status(error?.status || 500).json({
+      sucess: false,
+      message: error?.message || 'Unknow error',
+      data: error
+    })
+  }
+}
+
+const saveOnePet = async (req, res) => {
+  const { petId } = req.params
+  try {
+    const savedPet = await PetService.saveOnePet(petId, req.userId)
+    if (!savedPet) {
+      return res.status(404).json({
+        success: false,
+        message: `Can't find pet with the id '${petId}'.`
+      })
+    }
+    return res.status(201).json({
+      sucess: true,
+      message: `Pet with id '${petId}' has been added (or deleted) from your saved pets list successfully.`
+    })
+  } catch (error) {
+    return res.status(error?.status || 500).json({
+      sucess: false,
+      message: error?.message || 'Unknow error',
+      data: error
+    })
+  }
+}
+
+const favOnePet = async (req, res) => {
+  const { petId } = req.params
+  try {
+    const favPet = await PetService.favOnePet(petId, req.userId)
+    if (!favPet) {
+      return res.status(404).json({
+        success: false,
+        message: `Can't find pet with the id '${petId}'.`
+      })
+    }
+    return res.status(201).json({
+      sucess: true,
+      message: `Pet with id '${petId}' has been added to (or deleted from) your fav list successfully.`
+    })
+  } catch (error) {
+    return res.status(error?.status || 500).json({
+      sucess: false,
+      message: error?.message || 'Unknow error',
+      data: error
+    })
+  }
+}
+
 module.exports = {
   createNewPet,
   getOnePet,
   updateOnePet,
   deleteOnePet,
-  getAllPets
+  getAllPets,
+  likeOnePet,
+  saveOnePet,
+  favOnePet
 }
