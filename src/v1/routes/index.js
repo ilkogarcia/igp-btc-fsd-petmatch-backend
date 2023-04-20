@@ -9,6 +9,7 @@
  * @requires v1/routes/cityRoutes
  * @requires v1/routes/petRoutes
  * @requires v1/routes/petBreedRoutes
+ * @requires v1/routes/petSpecieRoutes
  */
 
 // Import express and create router
@@ -35,6 +36,9 @@ router.use('/pets', require('./petRoutes'))
 
 // Pet breeds endpoints routes
 router.use('/pet-breeds', require('./petBreedRoutes'))
+
+// Pet species endpoints routes
+router.use('/pet-species', require('./petSpecieRoutes'))
 
 // API Welcome endpoint route
 router.get('/', async (req, res) => {
