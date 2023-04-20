@@ -1,11 +1,15 @@
 /* eslint-disable no-throw-literal */
 /**
- * @file userServices.js
- *  @description User services
+ * @module services/userService
+ * @description User services
+ * @requires sequelize/lib/operators
+ * @requires models/index
  */
 
 // Import dependencies
 const { Op } = require('sequelize')
+
+// Import models used by this service
 const { User, AccountType, City, StateProvince, Country } = require('../models')
 
 /**

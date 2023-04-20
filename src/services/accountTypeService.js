@@ -1,17 +1,25 @@
+/* eslint-disable no-throw-literal */
 /**
- * AccountType service layer.
- * 
  * @module services/accountTypeService
+ * @description AccountType services
  * @requires sequelize/lib/operators
  * @requires models/index
  */
 
+// Import dependencies
 const { Op } = require('sequelize')
+
+// Import models used by this service
 const { AccountType } = require('../models/index')
 
 /**
- * Creates a new accountType in database.
- * @param {Object} accountTypeData - The data for the accountType to be created.
+ * CRUD: Create a new accountType in database.
+ * @param {Object} accountTypeData - The data for the account type to be created.
+ * @param {String} accountTypeData.title - The title of the account type.
+ * @param {String} accountTypeData.description - The description of the account type.
+ * @param {String} accountTypeData.permissions - The permissions of the account type.
+ * @param {Boolean} accountTypeData.isActive - The status of the account type.
+ * @example accountTypeData = { title: 'administrator', description: 'Administrator account type', permissions: 'all', isActive: true }
  * @returns {Object} The created accountType data.
  */
 
@@ -39,7 +47,7 @@ const createNewAccountType = async (accountTypeData) => {
 }
 
 /**
- * Retrieves an accountType by id.
+ * CRUD: Retrieves an accountType by id.
  * @param {Number} accountTypeId  - The id of the accountType to retrieve.
  * @returns {Object} The retrieved accountType data.
  */
@@ -54,7 +62,7 @@ const getOneAccountType = async (accountTypeId) => {
       }
     }
     return accountType
-} catch (error) {
+  } catch (error) {
     throw {
       status: error?.status || 500,
       message: error?.message || error
@@ -63,7 +71,7 @@ const getOneAccountType = async (accountTypeId) => {
 }
 
 /**
- * Updates an accountType by id.
+ * CRUD: Updates an accountType by id.
  * @param {Number} accountTypeId - The id of the accountType to update.
  * @param {Object} accountTypeData - The data for the accountType to be updated.
  * @returns {Object} The updated accountType data.
@@ -74,7 +82,7 @@ const updateOneAccountType = async (accountTypeId, accountTypeData) => {
     const updateResult = await AccountType.update(accountTypeData, {
       where: { id: accountTypeId }
     })
-    if (updateResult[0] === 0 ) {
+    if (updateResult[0] === 0) {
       throw {
         status: 400,
         message: `Can't update the accountType with the id '${accountTypeId}'.`
@@ -82,7 +90,7 @@ const updateOneAccountType = async (accountTypeId, accountTypeData) => {
     }
     const accountType = await AccountType.findByPk(accountTypeId)
     return accountType
-} catch (error) {
+  } catch (error) {
     throw {
       status: error?.status || 500,
       message: error?.message || error
@@ -91,7 +99,7 @@ const updateOneAccountType = async (accountTypeId, accountTypeData) => {
 }
 
 /**
- * Deletes an accountType by id.
+ * CRUD: Deletes an accountType by id.
  * @param {Number} accountTypeId - The id of the accountType to delete.
  * @returns {Object} The deleted accountType data.
  */
@@ -107,7 +115,7 @@ const deleteOneAccountType = async (accountTypeId) => {
     }
     await accountType.destroy({ where: { id: accountTypeId } })
     return accountType
-} catch (error) {
+  } catch (error) {
     throw {
       status: error?.status || 500,
       message: error?.message || error
@@ -116,23 +124,26 @@ const deleteOneAccountType = async (accountTypeId) => {
 }
 
 /**
- * Retrieves all accountTypes.
- * @param {Object} filterParams - The filter params for the accountTypes to retrieve.
- * @returns {Array} The list of retrieved accountTypes data.
+ * Get all accountTypes or accountTypes with filter params.
+ * @param {Object} filterParams - An object that can optionally include "title, isActive" as a parameter to filter the query to the database.
+ * @param {String} filterParams.title - The title of the accountType to retrieve.
+ * @param {Boolean} filterParams.isActive - The status of the accountType to retrieve.
+ * @example filterParams = { title: 'user', isActive: true }
+ * @returns {Object} An object "accountTypes" that include and array with all the account types data retrieved.
  */
 
 const getAllAccountTypes = async (filterParams) => {
   try {
     const { title, isActive } = filterParams
 
-    // Conditions for the query
+    // Build the conditions for the query
     const titleCondition = title ? { title: { [Op.like]: `${title}` } } : {}
-    const isActiveCondition = isActive ? { isActive: isActive } : {}
+    const isActiveCondition = isActive ? { isActive } : {}
 
-    // Find all accountTypes with the conditions
+    // Find all accountTypes usign the conditions already built
     const accountTypes = await AccountType.findAll({
-        where: { ...titleCondition, ...isActiveCondition }
-    })    
+      where: { ...titleCondition, ...isActiveCondition }
+    })
     return accountTypes
   } catch (error) {
     throw {
@@ -142,11 +153,18 @@ const getAllAccountTypes = async (filterParams) => {
   }
 }
 
+/**
+ * Find an accountType by title.
+ * @param {String} title - The title of the accountType to retrieve.
+ * @example title = 'user'
+ * @returns {Object} An object "accountType" containing the accountType data.
+ */
+
 const findAccountTypeByTitle = async (title) => {
   try {
     const accountType = await AccountType.findOne({
       where: {
-        title: title
+        title
       }
     })
     if (!accountType) {

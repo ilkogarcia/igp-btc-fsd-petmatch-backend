@@ -47,7 +47,7 @@ module.exports = {
         postalCode: faker.address.zipCode('#####'),
         phoneNumber: faker.phone.number('+34 ### ### ###'),
         birthday: faker.date.birthdate(),
-        gender: faker.name.gender(),
+        gender: faker.helpers.arrayElement(['Male', 'Female', 'Other', 'Not specified']),
         isActive: faker.datatype.boolean(),
         isVerified: faker.datatype.boolean(),
         lastLogin: faker.date.recent(),

@@ -1,18 +1,30 @@
-/*
- * Service for sending emails using Twilio SendGrid´s v3 Node.js Library
- * Docs: http://github.com/sendgrid/sendgrid-nodejs
-*/
+/* eslint-disable no-throw-literal */
+/**
+ * @module services/emailService
+ * @description Email services
+ * @requires @sendgrid/mail
+ * @requires dotenv
+ */
 
+// Import dependencies
 require('dotenv').config()
 const sendGridMail = require('@sendgrid/mail')
+
+/**
+ * Sends an email using SendGrid.
+ * @param {String} to - The email address of the recipient.
+ * @param {String} subject - The subject of the email.
+ * @param {String} body - The body text or html of the email.
+ * @returns {Object} The response from SendGrid API.
+ */
 
 const sendEmail = async (to, subject, body) => {
   try {
     sendGridMail.setApiKey(process.env.SENDGRID_API_KEY)
     const msg = {
-      to: to,
+      to,
       from: process.env.SENDGRID_FROM_ADDRESS,
-      subject: subject,
+      subject,
       text: body,
       html: `<strong>${body}</strong>`
     }
@@ -25,12 +37,12 @@ const sendEmail = async (to, subject, body) => {
     }
     return response
   } catch (error) {
-      console.log(error)
-      throw {
-        status: error?.status || 500,
-        message: error?.message || error
-      }
+    console.log(error)
+    throw {
+      status: error?.status || 500,
+      message: error?.message || error
     }
+  }
 }
 
 module.exports = { sendEmail }

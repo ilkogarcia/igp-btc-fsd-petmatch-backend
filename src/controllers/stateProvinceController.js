@@ -14,18 +14,14 @@ const StateProvinceService = require('../services/stateProvinceService')
 
 const getAllStateProvinces = async (req, res) => {
   try {
-    // Get country id from request
     const { countryId } = req.query
-    // Get all stateProvinces
     const stateProvinces = await StateProvinceService.getAllStateProvinces({ countryId })
-    // Check the fetched data from database
     if (!stateProvinces) {
       return res.status(404).json({
         sucess: false,
         message: "Can't find any state or province."
       })
     }
-    // Return the fetched data
     return res.status(201).json({
       sucess: true,
       message: 'State or provinces info recovered successfully.',

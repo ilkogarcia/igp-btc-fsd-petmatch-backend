@@ -1,6 +1,14 @@
 /**
- * @file index.js
+ * @module v1/routes
  * @description API v1 routes
+ * @requires express
+ * @requires v1/routes/authRoutes
+ * @requires v1/routes/userRoutes
+ * @requires v1/routes/countryRoutes
+ * @requires v1/routes/stateProvinceRoutes
+ * @requires v1/routes/cityRoutes
+ * @requires v1/routes/petRoutes
+ * @requires v1/routes/petBreedRoutes
  */
 
 // Import express and create router
@@ -13,9 +21,6 @@ router.use('/auth', require('./authRoutes'))
 // Users endpoints routes
 router.use('/users', require('./userRoutes'))
 
-// Pets endpoints routes
-router.use('/pets', require('./petRoutes'))
-
 // Countries endpoints routes
 router.use('/countries', require('./countryRoutes'))
 
@@ -24,6 +29,12 @@ router.use('/state-provinces', require('./stateProvinceRoutes'))
 
 // City endpoints routes
 router.use('/cities', require('./cityRoutes'))
+
+// Pets endpoints routes
+router.use('/pets', require('./petRoutes'))
+
+// Pet breeds endpoints routes
+router.use('/pet-breeds', require('./petBreedRoutes'))
 
 // API Welcome endpoint route
 router.get('/', async (req, res) => {

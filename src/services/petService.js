@@ -1,11 +1,15 @@
+/* eslint-disable no-throw-literal */
 /**
- * Pet service layer.
  * @module services/petService
- * @requires models/index
+ * @description Pet services
  * @requires sequelize/lib/operators
+ * @requires models/index
  */
 
+// Import dependencies
 const { Op } = require('sequelize')
+
+// Import models used by this service
 const { Pet, PetSpecie, PetBreed, PetStatus } = require('../models/index')
 
 /**

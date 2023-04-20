@@ -1,7 +1,8 @@
 /* eslint-disable no-throw-literal */
 /**
- * @file countryService.js
- * @description Country services
+ * @module services/cityService
+ * @description City services
+ * @requires models/index
  */
 
 // Import models used by this service
@@ -9,7 +10,8 @@ const { Country } = require('../models')
 
 /**
  * Get all countries from database
- * @returns {Object} countries - An object that includes all the countries data that was retrieved.
+ * @returns {Object} An object "countries" that include an array with all the countries data retrieved.
+ * @throws {Object} An object "error" that include the error message and status code.
  */
 
 const getAllCountries = async () => {

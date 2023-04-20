@@ -1,16 +1,17 @@
 /* eslint-disable no-throw-literal */
 /**
- * @file cityService.js
+ * @module services/cityService
  * @description City services
+ * @requires models/index
  */
 
 // Import models used by this service
 const { City } = require('../models')
 
 /**
- * Get all cities from database corrsponding to an specific state or province or all of them.
- * @param {Object} filterParams - An object containing 'stateProvinceId' as a filter parameters to be used in the query.
- * @returns {Object} cities - An object that includes all the cities data that was retrieved.
+ * Get all cities from database that match with an specific state or province id, or all of them.
+ * @param {Object} filterParams - An object that can optionally include "stateProvinceId" as a parameter to filter the query to the database.
+ * @returns {Object} An object "cities" that include and array with all the cities data retrieved.
  */
 
 const getAllCities = async (filterParams) => {

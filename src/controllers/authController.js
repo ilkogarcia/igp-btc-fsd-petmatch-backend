@@ -196,7 +196,7 @@ const loginUser = async (req, res) => {
         userId: user.id,
         userEmail: user.email,
         userRole: accountType.title
-      }, process.env.SECRET_WEB, { expiresIn: '1h' })
+      }, process.env.SECRET_WEB, { expiresIn: '24h' })
 
     return res.status(201).json({
       sucess: true,

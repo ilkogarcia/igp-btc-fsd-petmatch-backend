@@ -13,16 +13,13 @@ const CountryService = require('../services/countryService')
 
 const getAllCountries = async (req, res) => {
   try {
-    // Get all countries
     const countries = await CountryService.getAllCountries()
-    // Check the fetched data from database
     if (!countries) {
       return res.status(404).json({
         sucess: false,
         message: "Can't find any country."
       })
     }
-    // Return the fetched data
     return res.status(201).json({
       sucess: true,
       message: 'Countries info recovered successfully.',

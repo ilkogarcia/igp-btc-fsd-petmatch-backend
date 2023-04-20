@@ -29,7 +29,7 @@ module.exports = {
           breedId,
           shelterId,
           statusId,
-          gender: faker.helpers.arrayElement(['Male', 'Female']),
+          gender: faker.helpers.arrayElement(['Male', 'Female', 'Unknown']),
           name: faker.name.firstName(),
           age: faker.datatype.number({ min: 1, max: 20, precision: 1 }),
           description: faker.lorem.sentence(),
