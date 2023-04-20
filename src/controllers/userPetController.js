@@ -1,6 +1,7 @@
 /**
  * @module src/controllers/userPetController
  * @description This module is responsible for handling all requests related to user pets.
+ * @requires src/services/userPetService
  */
 
 // Import services modules used by this controller
@@ -57,6 +58,93 @@ const getAllUserPets = async (req, res) => {
   }
 }
 
+const getAllPetsLikes = async (req, res) => {
+  try {
+    const likedPets = await UserPetService.getAllPetsLikes(req.userId)
+    if (!likedPets) {
+      return res.status(404).json({
+        sucess: false,
+        message: 'The list of pets with a user\'s like is empty'
+      })
+    }
+    return res.status(201).json({
+      sucess: true,
+      message: 'The list of pets with a user like has been successfully retrieved',
+      info: {
+        total: likedPets.count
+      },
+      data: {
+        pets: likedPets || []
+      }
+    })
+  } catch (error) {
+    return res.status(error?.status || 500).json({
+      sucess: false,
+      message: error?.message || 'Unknow error',
+      data: error
+    })
+  }
+}
+
+const getAllPetsSaved = async (req, res) => {
+  try {
+    const savedPets = await UserPetService.getAllPetsSaved(req.userId)
+    if (!savedPets) {
+      return res.status(404).json({
+        sucess: false,
+        message: 'The list of pets user has saved for later is empty.'
+      })
+    }
+    return res.status(201).json({
+      sucess: true,
+      message: 'The list of pets user has saved for later has been successfully retrieved.',
+      info: {
+        total: savedPets.count
+      },
+      data: {
+        pets: savedPets || []
+      }
+    })
+  } catch (error) {
+    return res.status(error?.status || 500).json({
+      sucess: false,
+      message: error?.message || 'Unknow error',
+      data: error
+    })
+  }
+}
+
+const getAllPetsFavorites = async (req, res) => {
+  try {
+    const favoritePets = await UserPetService.getAllPetsFavorites(req.userId)
+    if (!favoritePets) {
+      return res.status(404).json({
+        sucess: false,
+        message: 'The list of pets user has favorited is empty.'
+      })
+    }
+    return res.status(201).json({
+      sucess: true,
+      message: 'The list of pets user has favorited has been successfully retrieved.',
+      info: {
+        total: favoritePets.count
+      },
+      data: {
+        pets: favoritePets || []
+      }
+    })
+  } catch (error) {
+    return res.status(error?.status || 500).json({
+      sucess: false,
+      message: error?.message || 'Unknow error',
+      data: error
+    })
+  }
+}
+
 module.exports = {
-  getAllUserPets
+  getAllUserPets,
+  getAllPetsLikes,
+  getAllPetsSaved,
+  getAllPetsFavorites
 }

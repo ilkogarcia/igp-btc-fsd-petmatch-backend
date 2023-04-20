@@ -94,6 +94,14 @@ const getOneUser = async (req, res) => {
         message: 'Parameter \':userId\' can not be empty'
       })
     }
+
+    if (req.userRole !== 'administrator' && req.userId !== userId) {
+      return res.status(401).json({
+        status: false,
+        message: 'You are not authorized to access this resource'
+      })
+    }
+
     const user = await UserService.getOneUser(userId)
     if (!user) {
       return res.status(404).json({
