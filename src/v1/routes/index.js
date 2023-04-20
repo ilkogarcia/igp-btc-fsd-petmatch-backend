@@ -40,6 +40,12 @@ router.use('/pet-breeds', require('./petBreedRoutes'))
 // Pet species endpoints routes
 router.use('/pet-species', require('./petSpecieRoutes'))
 
+// Pet statuses endpoints routes
+router.use('/pet-statuses', require('./petStatusRoutes'))
+
+// Application statuses endpoints routes
+router.use('/application-statuses', require('./applicationStatusRoutes'))
+
 // API Welcome endpoint route
 router.get('/', async (req, res) => {
   return res.json({ messsage: `👋 Hello from ${req.baseUrl}` })

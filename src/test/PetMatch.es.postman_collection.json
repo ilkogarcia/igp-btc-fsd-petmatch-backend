@@ -760,6 +760,45 @@
 			"item": [
 				{
 					"name": "Get on pet breed (by Id)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/pet-breeds/28",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"pet-breeds",
+								"28"
+							],
+							"query": [
+								{
+									"key": "specieId",
+									"value": "6",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all pet breeds",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -786,7 +825,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pet-breeds/28",
+							"raw": "http://localhost:3000/api/v1/pet-breeds",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -795,22 +834,26 @@
 							"path": [
 								"api",
 								"v1",
-								"pet-breeds",
-								"28"
+								"pet-breeds"
 							],
 							"query": [
 								{
 									"key": "specieId",
-									"value": "6",
+									"value": "1",
 									"disabled": true
 								}
 							]
 						}
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "api/v1/pet-species",
+			"item": [
 				{
-					"name": "Get all petBreeds",
+					"name": "Get on pet specie (by Id)",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -825,7 +868,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pet-breeds?specieId=1",
+							"raw": "http://localhost:3000/api/v1/pet-species/5",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -834,13 +877,211 @@
 							"path": [
 								"api",
 								"v1",
-								"pet-breeds"
-							],
-							"query": [
+								"pet-species",
+								"5"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all pet species",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
 								{
-									"key": "specieId",
-									"value": "1"
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
 								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filterParams\": {\n        \"isActive\": \"Ok\"\n    },\n    \"orderParams\": [\n        {\n            \"field\": \"specieCommonName\",\n            \"direction\": \"DESC\" \n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/pet-species",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"pet-species"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "api/v1/pet-statuses",
+			"item": [
+				{
+					"name": "Get on pet status (by Id)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/pet-statuses/14",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"pet-statuses",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all pet statuses",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filterParams\": {\n        \"statusName\": \"Adopted\"\n    },\n    \"orderParams\": [\n        {\n            \"field\": \"id\",\n            \"direction\": \"DESC\" \n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/pet-statuses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"pet-statuses"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "api/v1/application-statuses",
+			"item": [
+				{
+					"name": "Get on application status (by Id)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/api/v1/application-statuses/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"application-statuses",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all application statuses",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filterParams\": {\n        \"statusName\": \"Pending\"\n    },\n    \"orderParams\": [\n        {\n            \"field\": \"id\",\n            \"direction\": \"DESC\" \n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/api/v1/application-statuses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"api",
+								"v1",
+								"application-statuses"
 							]
 						}
 					},

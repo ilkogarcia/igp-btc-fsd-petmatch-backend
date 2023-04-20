@@ -11,6 +11,7 @@ const { Op } = require('sequelize')
 
 // Import models used by this service
 const { PetSpecie } = require('../models')
+const { is } = require('immutable')
 
 /**
  * CRUD: Get one pet specie by his id from database
@@ -52,6 +53,7 @@ const getAllPetSpecies = async (filterParams, orderParams) => {
     // Build filter species condition
     const { specieCommonName, isActive } = filterParams
     const specieNameCondition = (specieCommonName) ? { specieCommonName: { [Op.like]: `%${specieCommonName}%` } } : {}
+    const isActiveCondition = (isActive) ? { isActive: (isActive === 'Ok') } : {}
 
     // Build order conditions (order field and order direction)
     const orderConditions = orderParams
@@ -59,7 +61,7 @@ const getAllPetSpecies = async (filterParams, orderParams) => {
       : [['id', 'ASC']]
 
     const petSpecies = await PetSpecie.findAndCountAll({
-      where: { ...specieNameCondition, isActive },
+      where: { ...specieNameCondition, ...isActiveCondition },
       attributes: ['id', 'specieCommonName', 'specieScientificName', 'specieDescription', 'isActive'],
       order: orderConditions
     })
