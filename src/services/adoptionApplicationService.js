@@ -35,6 +35,13 @@ const createNewAdoptionApplication = async (newAdoptionApplication) => {
     }
     // Create the new adoption application
     const adoptionApplication = await AdoptionApplication.create(newAdoptionApplication)
+    if (!adoptionApplication) {
+      throw {
+        status: 400,
+        message: `Something went wrong while creating the adoption application for the user with id '${newAdoptionApplication.userId}' and pet with id '${newAdoptionApplication.petId}'.`
+      }
+    }
+
     return adoptionApplication
   } catch (error) {
     throw {
@@ -108,6 +115,44 @@ const updateOneAdoptionApplication = async (userId, adoptionApplicationId, adopt
 }
 
 /**
+ * @function deleteOneAdoptionApplication - CRUD: Deletes an adoption application.
+ * @param {Object} userId - User id of the user who is deleting the adoption application.
+ * @param {*} adoptionApplicationId - Adoption application id.
+ * @returns {Object} adoptionApplication - Returns an object with the deleted adoption application data.
+ */
+
+const deleteOneAdoptionApplication = async (userId, adoptionApplicationId) => {
+  try {
+    // Find the adoption application
+    const adoptionApplication = await AdoptionApplication.findOne({
+      where: { id: adoptionApplicationId, userId }
+    })
+    if (!adoptionApplication) {
+      throw {
+        status: 400,
+        message: `Adoption application with id '${adoptionApplicationId}' does not exist or user with id '${userId}' does not have permission to update this adoption application.`
+      }
+    }
+
+    // If everything is ok, delete the adoption application
+    const deleteResult = await adoptionApplication.destroy()
+    if (!deleteResult) {
+      throw {
+        status: 400,
+        message: `Adoption application with id '${adoptionApplicationId}' could not be deleted.`
+      }
+    }
+
+    return adoptionApplication
+  } catch (error) {
+    throw {
+      status: error?.status || 500,
+      message: error?.message || 'Internal server error.'
+    }
+  }
+}
+
+/**
  * @function getAllAdoptionApplications - CRUD: Retrieves all adoption applications.
  * @param {Number} limit - Limit the number of results.
  * @param {Number} offset - Offset the number of results.
@@ -159,5 +204,6 @@ module.exports = {
   createNewAdoptionApplication,
   getOneAdoptionApplication,
   updateOneAdoptionApplication,
+  deleteOneAdoptionApplication,
   getAllAdoptionApplications
 }
