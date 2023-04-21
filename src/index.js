@@ -1,19 +1,30 @@
-/*
- * PetMatch.es
- * Main App
-*/
+/**
+ * @fileoverview Main entry point for the PetMatch API
+ * @author @ilkogarcia
+ * @version 1.0.0
+ * @license MIT
+ */
 
+// Import dependencies and modules
 require('dotenv').config()
 const express = require('express')
+const cors = require('cors')
 const routes = require('./v1/routes/index')
 const dbConnect = require('./database/dbConnect')
 const { swaggerDocs: v1SwaggerDocs } = require('./v1/swagger')
 
-// Server
+// Configure server
 const server = express()
 const PORT = process.env.PORT || 3000
 
-// Middlewares and error handlers for JSON parsing
+// Configure CORS
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  optionsSuccessStatus: 200
+}
+
+// Middleware
+server.use(cors(corsOptions))
 server.use(express.json())
 server.use((err, req, res, next) => {
   if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
