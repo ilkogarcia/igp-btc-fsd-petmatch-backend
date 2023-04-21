@@ -15,23 +15,20 @@ const AdoptionApplication = require('../services/adoptionApplicationService')
  */
 
 const createNewAdoptionApplication = async (req, res) => {
-  // Get the adoption application data from the request body
-  const { body: adoptionApplicationData } = req
-  if (!adoptionApplicationData) {
-    return res.status(400).json({
-      status: false,
-      message: 'The adoption application data is missing. Please provide an adoption application data and try again.'
-    })
+  // Avoid that someone else creates an adoption application for another user
+  //   const hasApplicationWithUserId = Object.values(adoptionApplicationData).some(application => application.userId === req.userId)
+  //   const updatedAdoptionApplicationData = (hasApplicationWithUserId)
+  //     ? adoptionApplicationData
+  //     : { ...adoptionApplicationData, userId: req.userId }
+
+  // Avoid changes in the application owner, forcing the user ID to be the same as the one in the token
+  const adoptionApplicationData = req.adoptionApplicationData
+  if (adoptionApplicationData.userId) {
+    adoptionApplicationData.userId = req.userId
   }
 
-  // Avoid that someone else creates an adoption application for another user
-  const hasApplicationWithUserId = Object.values(adoptionApplicationData).some(application => application.userId === req.userId)
-  const updatedAdoptionApplicationData = (hasApplicationWithUserId)
-    ? adoptionApplicationData
-    : { ...adoptionApplicationData, userId: req.userId }
-
   try {
-    const adoptionApplication = await AdoptionApplication.createNewAdoptionApplication(updatedAdoptionApplicationData)
+    const adoptionApplication = await AdoptionApplication.createNewAdoptionApplication(adoptionApplicationData)
     return res.status(201).json({
       status: true,
       message: 'Adoption application created successfully.',
@@ -98,6 +95,7 @@ const getOneAdoptionApplication = async (req, res) => {
  * @returns {Object} res - Returns an object with the adoption application data.
  * @throws {Object} - Returns an object with the error message.
  */
+
 const updateOneAdoptionApplication = async (req, res) => {
   // Get the adoption application ID from the request parameters
   const { params: { adoptionId } } = req

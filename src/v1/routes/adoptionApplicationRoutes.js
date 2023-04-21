@@ -14,12 +14,13 @@ const router = express.Router()
 // Import security middlewares
 const isAuthenticated = require('../../middlewares/isAuthenticated')
 const isAuthorizedOnAdoption = require('../../middlewares/isAuthorizedOnAdoption')
+const { newAdoptionPolicy } = require('../../middlewares/adoptionApplicationPolicy')
 
 // Import adoption application controllers
 const AdoptionApplicationController = require('../../controllers/adoptionApplicationController')
 
 // POST /api/v1/adoptions/ - Create a new adoption application
-router.post('/', isAuthenticated, isAuthorizedOnAdoption, AdoptionApplicationController.createNewAdoptionApplication)
+router.post('/', isAuthenticated, isAuthorizedOnAdoption, newAdoptionPolicy, AdoptionApplicationController.createNewAdoptionApplication)
 
 // GET /api/v1/adoptions/:adoptionId - Get one adoption application by id
 router.get('/:adoptionId', isAuthenticated, isAuthorizedOnAdoption, AdoptionApplicationController.getOneAdoptionApplication)
