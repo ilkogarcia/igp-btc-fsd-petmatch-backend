@@ -68,19 +68,52 @@ const getOneAdoptionApplication = async (req, res) => {
   } catch (error) {
     return res.status(error.status || 500).json({
       status: false,
-      message: error.message || error,
-      data: null
+      message: 'We apologize for the inconvenience. Our server encountered an unexpected error while processing your request. Please try again later or contact our support team for assistance.',
+      data: error
     })
   }
 }
 
 const updateOneAdoptionApplication = async (req, res) => {
-  return res
-    .status(200)
-    .json({
-      sucess: true,
-      message: `You are trying to update the adoption application with the ID ${req.params.adoptionId}`
+  // Get the adoption application ID from the request parameters
+  const { params: { adoptionId } } = req
+  if (!adoptionId) {
+    return res.status(400).json({
+      status: false,
+      message: 'The adoption application ID is missing. Please provide an adoption application ID and try again.'
     })
+  }
+
+  // Get the adoption application data from the request body
+  const { body: adoptionApplicationData } = req
+  if (!adoptionApplicationData) {
+    return res.status(400).json({
+      status: false,
+      message: 'The adoption application data is missing. Please provide an adoption application data and try again.'
+    })
+  }
+
+  try {
+    // Update the adoption application sending all information to the service
+    const adoptionApplication = await AdoptionApplication.updateOneAdoptionApplication(req.userId, adoptionId, adoptionApplicationData)
+    if (!adoptionApplication) {
+      return res.status(404).json({
+        sucess: false,
+        message: `We couldn't find an adoption application with the ID you provided (${req.params.adoptionId}).`
+      })
+    }
+    return res.status(200).json({
+      sucess: true,
+      message: 'Your adoption application has been updated successfully.',
+      data: adoptionApplication
+    })
+  } catch (error) {
+    return res.status(error.status || 500).json({
+      status: false,
+      message: 'We apologize for the inconvenience. Our server encountered an unexpected error while processing your request. Please try again later or contact our support team for assistance.',
+      data: error
+    })
+  }
 }
 
 const deleteOneAdoptionApplication = async (req, res) => {
