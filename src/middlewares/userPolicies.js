@@ -6,7 +6,7 @@
 const Joi = require('joi')
 
 /**
- * Policy to validate the request body when creating a new user.
+ * Policy to validate the requests that pretend to create a new user.
  * @param {Object} req - An object that includes a body element with user data.
  * @param {Object} res - An object that will be passed to the next middleware in the stack.
  * @param {Function} next - A function to call the next middleware in the stack.
@@ -55,13 +55,40 @@ const newUserPolicy = async (req, res, next) => {
   } catch (error) {
     res.status(500).json({
       sucess: false,
-      title: 'Something went wrong!'
+      message: 'Something went wrong!',
+      data: error
     })
   }
 }
 
 /**
- * Policy to validate the request body when updating a user.
+ * Policy to validate the requests that pretend to retrieve user data.
+ * @param {Object} req - An object that contains the id of the user that you want to retrieve from the database.
+ * @param {Object} res - An object that will be passed to the next middleware in the stack.
+ * @param {Function} next - A function to call the next middleware in the stack.
+ */
+
+const getUserPolicy = async (req, res, next) => {
+  try {
+    const { params: { userId } } = req
+    if (!userId) {
+      return res.status(400).json({
+        status: false,
+        message: 'Parameter \':userId\' can not be empty'
+      })
+    }
+    next()
+  } catch (error) {
+    res.status(500).json({
+      sucess: false,
+      message: 'Something went wrong!',
+      data: error
+    })
+  }
+}
+
+/**
+ * Policy to validate the requests that pretend to update user data.
  * @param {Object} req - An object that includes user id and data changes.
  * @param {Object} res - An object that will be passed to the next middleware in the stack.
  * @param {Function} next - A function to call the next middleware in the stack.
@@ -73,31 +100,53 @@ const updateUserPolicy = async (req, res, next) => {
   } catch (error) {
     res.status(500).json({
       sucess: false,
-      title: 'Something went wrong!'
+      message: 'Something went wrong!',
+      data: error
     })
   }
 }
 
 /**
- * Policy to validate the request body when retrieving a user.
- * @param {Object} req - An object that contains the id of the user that you want to retrieve from the database.
+ * Policy to validate the requests that pretend to delete a user.
+ * @param {Object} req - An object that includes user id and data changes.
  * @param {Object} res - An object that will be passed to the next middleware in the stack.
  * @param {Function} next - A function to call the next middleware in the stack.
  */
 
-const getUserPolicy = async (req, res, next) => {
+const deleteUserPolicy = async (req, res, next) => {
   try {
     next()
   } catch (error) {
     res.status(500).json({
       sucess: false,
-      title: 'Something went wrong!'
+      message: 'Something went wrong!',
+      data: error
+    })
+  }
+}
+
+/** Policy to validate the requests that pretend to get all users data.
+ * @param {Object} req - An object that includes user id and data changes.
+ * @param {Object} res - An object that will be passed to the next middleware in the stack.
+ * @param {Function} next - A function to call the next middleware in the stack.
+ */
+
+const getAllUsersPolicy = async (req, res, next) => {
+  try {
+    next()
+  } catch (error) {
+    res.status(500).json({
+      sucess: false,
+      message: 'Something went wrong!',
+      data: error
     })
   }
 }
 
 module.exports = {
   newUserPolicy,
+  getUserPolicy,
   updateUserPolicy,
-  getUserPolicy
+  deleteUserPolicy,
+  getAllUsersPolicy
 }

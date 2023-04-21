@@ -1,12 +1,6 @@
-/*
-* Determine if user has authorization by checking his account type set in the session(token).
-* Returning a 401 unauthorized error if the token is invalid.
-*/
-
 /**
- * Middlweware to determine if user is authorized
- * to access the specific resource.
- *
+ * @module isAuthorized
+ * @description Middleware to determine if user is authorized to...
  * @param {object} req - Request object
  * @param {object} res - Response object
  * @param {function} next - Next function
@@ -14,33 +8,19 @@
 
 const isAuthorized = async (req, res, next) => {
   try {
-    // Check if user is an administrator
-    if (req.userRole === 'administrator') {
-      return next()
-    }
-
-    // Check if user is a shelter
-    if (req.userRole === 'shelter') {
-      return next()
-    }
-
-    // Check if user is a regular user
-    if (req.userRole === 'user') {
-      // Only allow GET requests
-      if (req.method !== 'GET') {
-        return res.status(403).json({
-          sucess: false,
-          message: 'Forbidden access to this resource'
+    switch (req.userRole) {
+      case 'administrator':
+        return next()
+      case 'user':
+        return next()
+      case 'shelter':
+        return next()
+      default:
+        return res.status(401).json({
+          status: false,
+          message: 'You user role is not authorized to access this resource'
         })
-      }
-      return next()
     }
-
-    // User is not authorized
-    return res.status(401).json({
-      sucess: false,
-      message: 'Unauthorized'
-    })
   } catch (error) {
     return res.status(500).json({
       sucess: false,

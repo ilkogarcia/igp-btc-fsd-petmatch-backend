@@ -1,16 +1,25 @@
 /* eslint-disable no-throw-literal */
-/*
-* Determine if user is authenticated by checking if the token used in the request
-* is valid. Returning a 401 unauthorized error if the token is invalid.
+/**
+ * @module middlewares/isAuthenticated
+ * @description Determine if user is authenticated by checking if the token used in the request is valid.
+ * @requires module:dotenv
+ * @requires module:jsonwebtoken
+ * @requires module:../helpers/auth
+ * @requires module:../models
 */
+
+// Import dependencies used on this module
 require('dotenv').config()
 const jwt = require('jsonwebtoken')
+
+// Import helpers used on this module
 const { isBlacklisted } = require('../helpers/auth')
+
+// Import models used on this module
 const { User } = require('../models')
 
 /**
- * Verify token received, decoded and handle some errors.
- *
+ * @function verifyToken - Verify if token is valid
  * @param {string} token - JWT token
  * @param {string} secret - Secret key
  * @returns - Decoded token
@@ -35,8 +44,7 @@ const verifyToken = async (token, secret) => {
 }
 
 /**
- * Middleware to determine if user is authenticated.
- *
+ * @function isAuthenticated - Middleware to determine if user is authenticated to access a resource
  * @param {object} req - Request object
  * @param {object} res - Response object
  * @param {function} next - Next function

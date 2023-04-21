@@ -88,19 +88,6 @@ const createNewUser = async (req, res) => {
 const getOneUser = async (req, res) => {
   try {
     const { params: { userId } } = req
-    if (!userId) {
-      return res.status(400).json({
-        status: false,
-        message: 'Parameter \':userId\' can not be empty'
-      })
-    }
-
-    if (req.userRole !== 'administrator' && req.userId !== userId) {
-      return res.status(401).json({
-        status: false,
-        message: 'You are not authorized to access this resource'
-      })
-    }
 
     const user = await UserService.getOneUser(userId)
     if (!user) {
