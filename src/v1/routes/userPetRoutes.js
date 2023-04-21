@@ -18,9 +18,6 @@ const isAuthorized = require('../../middlewares/isAuthorized')
 // Import user-pet controllers
 const UserPetController = require('../../controllers/userPetController')
 
-// GET /v1/user-pets/ - Get all user-pets
-router.get('/', isAuthenticated, isAuthorized, UserPetController.getAllUserPets)
-
 // GET /api/v1/user-pets/likes - Get the pets list the user logged in has a liked
 router.get('/likes', isAuthenticated, isAuthorized, UserPetController.getAllPetsLikes)
 
@@ -29,5 +26,8 @@ router.get('/saved', isAuthenticated, isAuthorized, UserPetController.getAllPets
 
 // GET /api/v1/user-pets/favorites - Get the pets list the user logged in has a favorited
 router.get('/favorites', isAuthenticated, isAuthorized, UserPetController.getAllPetsFavorites)
+
+// GET /api/v1/user-pets/ - Get all user-pets
+router.get('/', isAuthenticated, isAuthorized, UserPetController.getAllUserPets)
 
 module.exports = router
