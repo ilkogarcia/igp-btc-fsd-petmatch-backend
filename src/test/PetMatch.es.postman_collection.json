@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "754bb0d1-3ebf-4680-9386-728d4a012290",
-		"name": "PetMatch.es",
+		"name": "petmatch.es",
 		"description": "API PetMatch.es",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "25966527"
@@ -11,7 +11,7 @@
 			"name": "api/v1/auth",
 			"item": [
 				{
-					"name": "Register",
+					"name": "register",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -25,15 +25,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/auth/register",
-							"protocol": "http",
+							"raw": "{{API_URL}}/auth/register",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"auth",
 								"register"
 							]
@@ -42,7 +38,7 @@
 					"response": []
 				},
 				{
-					"name": "Login",
+					"name": "login",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -56,15 +52,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/auth/login",
-							"protocol": "http",
+							"raw": "{{API_URL}}/auth/login",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"auth",
 								"login"
 							]
@@ -73,7 +65,7 @@
 					"response": []
 				},
 				{
-					"name": "Logout",
+					"name": "logout",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -88,15 +80,11 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/auth/logout",
-							"protocol": "http",
+							"raw": "{{API_URL}}/auth/logout",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"auth",
 								"logout"
 							]
@@ -105,29 +93,7 @@
 					"response": []
 				},
 				{
-					"name": "Refresh",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:3000/api/v1/auth/refresh",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "3000",
-							"path": [
-								"api",
-								"v1",
-								"auth",
-								"refresh"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Forgot Password",
+					"name": "forgot-password",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -141,15 +107,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/auth/forgot-password",
-							"protocol": "http",
+							"raw": "{{API_URL}}/auth/forgot-password",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"auth",
 								"forgot-password"
 							]
@@ -158,7 +120,7 @@
 					"response": []
 				},
 				{
-					"name": "Reset Password",
+					"name": "reset-password",
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -172,15 +134,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/auth/reset-password?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQ4LCJ1c2VyRW1haWwiOiJpbGtvLmdhcmNpYUBnbWFpbC5jb20iLCJpYXQiOjE2ODE5MDc4OTYsImV4cCI6MTY4MTkxMTQ5Nn0.3zLEZQ5MRHzz7kzO2PfE4c7l0bqJj14pElbRIc4i8-4",
-							"protocol": "http",
+							"raw": "{{API_URL}}/auth/reset-password?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQ4LCJ1c2VyRW1haWwiOiJpbGtvLmdhcmNpYUBnbWFpbC5jb20iLCJpYXQiOjE2ODE5MDc4OTYsImV4cCI6MTY4MTkxMTQ5Nn0.3zLEZQ5MRHzz7kzO2PfE4c7l0bqJj14pElbRIc4i8-4",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"auth",
 								"reset-password"
 							],
@@ -195,20 +153,16 @@
 					"response": []
 				},
 				{
-					"name": "Verify Email",
+					"name": "verify-email",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/auth/verify-email",
-							"protocol": "http",
+							"raw": "{{API_URL}}/auth/verify-email",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"auth",
 								"verify-email"
 							]
@@ -246,17 +200,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pets/",
-							"protocol": "http",
+							"raw": "{{API_URL}}/pets",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
-								"pets",
-								""
+								"pets"
 							]
 						}
 					},
@@ -278,15 +227,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pets/1",
-							"protocol": "http",
+							"raw": "{{API_URL}}/pets/1",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"pets",
 								"1"
 							]
@@ -319,15 +264,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pets/83",
-							"protocol": "http",
+							"raw": "{{API_URL}}/pets/83",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"pets",
 								"83"
 							]
@@ -351,15 +292,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pets/82",
-							"protocol": "http",
+							"raw": "{{API_URL}}/pets/82",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"pets",
 								"82"
 							]
@@ -395,15 +332,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pets?limit=2&page=1",
-							"protocol": "http",
+							"raw": "{{API_URL}}/pets?limit=2&page=1",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"pets"
 							],
 							"query": [
@@ -436,20 +369,17 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pets/11/like",
-							"protocol": "http",
+							"raw": "{{API_URL}}/pets/11/like",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"pets",
 								"11",
 								"like"
 							]
-						}
+						},
+						"description": "Using this endpoint to which you must pass the id of the pet as a parameter, you can indicate that you like or dislike it at any time."
 					},
 					"response": []
 				},
@@ -469,15 +399,11 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pets/3/save",
-							"protocol": "http",
+							"raw": "{{API_URL}}/pets/3/save",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"pets",
 								"3",
 								"save"
@@ -502,15 +428,11 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pets/9/fav",
-							"protocol": "http",
+							"raw": "{{API_URL}}/pets/9/fav",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"pets",
 								"9",
 								"fav"
@@ -549,15 +471,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/users/",
-							"protocol": "http",
+							"raw": "{{API_URL}}/users/",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"users",
 								""
 							]
@@ -581,17 +499,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/users/36",
-							"protocol": "http",
+							"raw": "{{API_URL}}/users/39",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"users",
-								"36"
+								"39"
 							]
 						}
 					},
@@ -614,7 +528,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"username\": \"panchitovilla\",\n    \"postalCode\": \"46789\",\n    \"phoneNumber\": \"999999999\"\n}",
+							"raw": "{\n    \"username\": \"luisitoelvaliente\",\n    \"phoneNumber\": \"345654324\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -622,17 +536,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/users/49",
-							"protocol": "http",
+							"raw": "{{API_URL}}/users/39",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"users",
-								"49"
+								"39"
 							]
 						}
 					},
@@ -654,15 +564,11 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/users/2890",
-							"protocol": "http",
+							"raw": "{{API_URL}}/users/2890",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"users",
 								"2890"
 							]
@@ -698,15 +604,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/users?limit=5&page=1",
-							"protocol": "http",
+							"raw": "{{API_URL}}/users?limit=5&page=1",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"users"
 							],
 							"query": [
@@ -727,11 +629,177 @@
 		},
 		{
 			"name": "api/v1/shelters",
-			"item": []
-		},
-		{
-			"name": "api/v1/addoptions",
-			"item": []
+			"item": [
+				{
+					"name": "Create a new shelter",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cityId\": 47,\n    \"stateProvinceId\": 44,\n    \"countryId\": 9,\n    \"addressLine1\": \"C/ Camino Nuevo de Paterna, 165.\",\n    \"addressLine2\": \"Benimamet\",\n    \"name\": \"Mi Mascota Feliz\",\n    \"description\": \"Este es mi mascota feliz\",\n    \"contactEmail\": \"info@protectoramodepran.com\",\n    \"contactPhone\": \"673274792\",\n    \"webUrl\": \"https://www.protectoramodepran.com/\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/shelters/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"shelters",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get an existig shelter",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/shelters/4",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"shelters",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update an existing shelter",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"cityId\": 47,\n    \"stateProvinceId\": 44,\n    \"countryId\": 9,\n    \"name\": \"Mascotasas\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/shelters/98",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"shelters",
+								"98"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete an existing shelter",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/shelters/2",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"shelters",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all shelters",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filterParams\": {\n        \"countryId\": 9\n    },\n    \"searchParams\": {\n        \"name\": \"A\",\n        \"email\": \"@gmail.com\"\n    },\n    \"orderParams\": [\n        {\n            \"field\": \"updatedAt\",\n            \"direction\": \"DESC\" \n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/shelters",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"shelters"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "api/v1/countries",
@@ -752,15 +820,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/countries",
-							"protocol": "http",
+							"raw": "{{API_URL}}/countries",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"countries"
 							]
 						}
@@ -788,15 +852,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/state-provinces?countryId=9",
-							"protocol": "http",
+							"raw": "{{API_URL}}/state-provinces?countryId=9",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"state-provinces"
 							],
 							"query": [
@@ -830,15 +890,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/cities",
-							"protocol": "http",
+							"raw": "{{API_URL}}/cities",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"cities"
 							],
 							"query": [
@@ -873,15 +929,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pet-breeds/28",
-							"protocol": "http",
+							"raw": "{{API_URL}}/pet-breeds/28",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"pet-breeds",
 								"28"
 							],
@@ -924,15 +976,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pet-breeds",
-							"protocol": "http",
+							"raw": "{{API_URL}}/pet-breeds",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"pet-breeds"
 							],
 							"query": [
@@ -967,15 +1015,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pet-species/5",
-							"protocol": "http",
+							"raw": "{{API_URL}}/pet-species/5",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"pet-species",
 								"5"
 							]
@@ -1011,15 +1055,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pet-species",
-							"protocol": "http",
+							"raw": "{{API_URL}}/pet-species",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"pet-species"
 							]
 						}
@@ -1047,15 +1087,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pet-statuses/14",
-							"protocol": "http",
+							"raw": "{{API_URL}}/pet-statuses/14",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"pet-statuses",
 								"14"
 							]
@@ -1091,15 +1127,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/pet-statuses",
-							"protocol": "http",
+							"raw": "{{API_URL}}/pet-statuses",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"pet-statuses"
 							]
 						}
@@ -1127,15 +1159,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/application-statuses/2",
-							"protocol": "http",
+							"raw": "{{API_URL}}/application-statuses/2",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"application-statuses",
 								"2"
 							]
@@ -1171,15 +1199,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/application-statuses",
-							"protocol": "http",
+							"raw": "{{API_URL}}/application-statuses",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"application-statuses"
 							]
 						}
@@ -1219,15 +1243,11 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:3000/api/v1/user-pets?limit=5&page=1",
-							"protocol": "http",
+							"raw": "{{API_URL}}/user-pets?limit=5&page=1",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"user-pets"
 							],
 							"query": [
@@ -1260,15 +1280,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/user-pets/likes",
-							"protocol": "http",
+							"raw": "{{API_URL}}/user-pets/likes",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"user-pets",
 								"likes"
 							]
@@ -1292,15 +1308,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/user-pets/saved",
-							"protocol": "http",
+							"raw": "{{API_URL}}/user-pets/saved",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"user-pets",
 								"saved"
 							]
@@ -1324,15 +1336,11 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/api/v1/user-pets/favorites",
-							"protocol": "http",
+							"raw": "{{API_URL}}/user-pets/favorites",
 							"host": [
-								"localhost"
+								"{{API_URL}}"
 							],
-							"port": "3000",
 							"path": [
-								"api",
-								"v1",
 								"user-pets",
 								"favorites"
 							]
@@ -1341,6 +1349,204 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "api/v1/adoptions",
+			"item": [
+				{
+					"name": "Create new adoption application",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"userId\": 41,\n    \"petId\": 2,\n    \"shelterId\": 8,\n    \"statusId\": 10,\n    \"applicationDate\": \"2023-04-15T21:54:42.000Z\",\n    \"applicationNotes\": \"Deserunt ut magnam suscipit sequi sapiente accusamus. Error sequi voluptates totam eos deleniti fugiat sapiente neque doloremque.Eos quidem reprehenderit pariatur. Quod aut quaerat illum vel. Sequi ipsa nostrum veritatis repellat sint sed. \"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/adoptions/",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"adoptions",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get one adoption application by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/adoptions/30",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"adoptions",
+								"30"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update one adoption application by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"statusId\": 7\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/adoptions/31",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"adoptions",
+								"31"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete one adoption application by id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{API_URL}}/adoptions/31",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"adoptions",
+								"31"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all adoption application",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{TOKEN}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"filterParams\": {\n    },\n    \"orderParams\": [\n        {\n            \"field\": \"updatedAt\",\n            \"direction\": \"DESC\" \n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{API_URL}}/adoptions?limit=10&page=1",
+							"host": [
+								"{{API_URL}}"
+							],
+							"path": [
+								"adoptions"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PetMatch.es API Hello!",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{API_URL}}",
+					"host": [
+						"{{API_URL}}"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

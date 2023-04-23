@@ -41,7 +41,7 @@ const createNewPet = async (petData) => {
   } catch (error) {
     throw {
       status: error?.status || 500,
-      message: error?.message || error
+      message: error?.message || 'Internal server error.'
     }
   }
 }
@@ -65,7 +65,7 @@ const getOnePet = async (petId) => {
   } catch (error) {
     throw {
       status: error?.status || 500,
-      message: error?.message || error
+      message: error?.message || 'Internal server error.'
     }
   }
 }
@@ -93,7 +93,7 @@ const updateOnePet = async (petId, petData) => {
   } catch (error) {
     throw {
       status: error?.status || 500,
-      message: error?.message || error
+      message: error?.message || 'Internal server error.'
     }
   }
 }
@@ -125,7 +125,7 @@ const deleteOnePet = async (petId) => {
   } catch (error) {
     throw {
       status: error?.status || 500,
-      message: error?.message || error
+      message: error?.message || 'Internal server error.'
     }
   }
 }
@@ -182,7 +182,10 @@ const getAllPets = async (limit, offset, filterParams, orderParams) => {
     })
     return pets
   } catch (error) {
-    throw { status: 500, message: error }
+    throw {
+      status: error?.status || 500,
+      message: error?.message || 'Internal server error.'
+    }
   }
 }
 
@@ -206,7 +209,7 @@ const likeOnePet = async (petId, userId) => {
   } catch (error) {
     throw {
       status: error?.status || 500,
-      message: error?.message || error
+      message: error?.message || 'Internal server error.'
     }
   }
 }
@@ -231,7 +234,7 @@ const saveOnePet = async (petId, userId) => {
   } catch (error) {
     throw {
       status: error?.status || 500,
-      message: error?.message || error
+      message: error?.message || 'Internal server error.'
     }
   }
 }
@@ -256,7 +259,7 @@ const favOnePet = async (petId, userId) => {
   } catch (error) {
     throw {
       status: error?.status || 500,
-      message: error?.message || error
+      message: error?.message || 'Internal server error.'
     }
   }
 }

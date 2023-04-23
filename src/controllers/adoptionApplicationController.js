@@ -15,20 +15,8 @@ const AdoptionApplication = require('../services/adoptionApplicationService')
  */
 
 const createNewAdoptionApplication = async (req, res) => {
-  // Avoid that someone else creates an adoption application for another user
-  //   const hasApplicationWithUserId = Object.values(adoptionApplicationData).some(application => application.userId === req.userId)
-  //   const updatedAdoptionApplicationData = (hasApplicationWithUserId)
-  //     ? adoptionApplicationData
-  //     : { ...adoptionApplicationData, userId: req.userId }
-
-  // Avoid changes in the application owner, forcing the user ID to be the same as the one in the token
-  const adoptionApplicationData = req.adoptionApplicationData
-  if (adoptionApplicationData.userId) {
-    adoptionApplicationData.userId = req.userId
-  }
-
   try {
-    const adoptionApplication = await AdoptionApplication.createNewAdoptionApplication(adoptionApplicationData)
+    const adoptionApplication = await AdoptionApplication.createNewAdoptionApplication(req.adoptionApplicationData)
     return res.status(201).json({
       status: true,
       message: 'Adoption application created successfully.',
@@ -52,12 +40,6 @@ const createNewAdoptionApplication = async (req, res) => {
 
 const getOneAdoptionApplication = async (req, res) => {
   const { params: { adoptionId } } = req
-  if (!adoptionId) {
-    return res.status(400).json({
-      status: false,
-      message: 'The adoption application ID is missing. Please provide an adoption application ID and try again.'
-    })
-  }
   try {
     const adoptionApplication = await AdoptionApplication.getOneAdoptionApplication(adoptionId)
 
@@ -90,35 +72,20 @@ const getOneAdoptionApplication = async (req, res) => {
 }
 
 /**
- * @function getAllAdoptionApplications - CRUD: Retrieves all adoption applications.
+ * @function updateOneAdoptionApplication - CRUD: Updates an adoption application by id.
  * @param {Object} req - Request object including the adoption application id and the new adoption application data.
  * @returns {Object} res - Returns an object with the adoption application data.
  * @throws {Object} - Returns an object with the error message.
  */
 
 const updateOneAdoptionApplication = async (req, res) => {
-  // Get the adoption application ID from the request parameters
   const { params: { adoptionId } } = req
-  if (!adoptionId) {
-    return res.status(400).json({
-      status: false,
-      message: 'The adoption application ID is missing. Please provide an adoption application ID and try again.'
-    })
-  }
-
-  // Get the adoption application data from the request body
   const { body: adoptionApplicationData } = req
-  if (!adoptionApplicationData) {
-    return res.status(400).json({
-      status: false,
-      message: 'The adoption application data is missing. Please provide an adoption application data and try again.'
-    })
-  }
 
   // Avoid changes in the application owner, forcing the user ID to be the same as the one in the token
-  if (adoptionApplicationData.userId) {
-    adoptionApplicationData.userId = req.userId
-  }
+  //   if (adoptionApplicationData.userId) {
+  //     adoptionApplicationData.userId = req.userId
+  //   }
 
   try {
     // Update the adoption application sending all information to the service
@@ -152,12 +119,6 @@ const updateOneAdoptionApplication = async (req, res) => {
 
 const deleteOneAdoptionApplication = async (req, res) => {
   const { params: { adoptionId } } = req
-  if (!adoptionId) {
-    return res.status(400).json({
-      status: false,
-      message: 'The adoption application ID is missing. Please provide an adoption application ID and try again.'
-    })
-  }
   try {
     const adoptionApplication = await AdoptionApplication.deleteOneAdoptionApplication(req.userId, adoptionId)
     if (!adoptionApplication) {
