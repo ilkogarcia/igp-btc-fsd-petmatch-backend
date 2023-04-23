@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3000
 
 // Configure CORS
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000',
+  origin: process.env.CORS_ORIGIN || '*',
   optionsSuccessStatus: 200
 }
 

@@ -9,24 +9,22 @@ const router = express.Router()
 
 // Import middlewares
 const isAuthenticated = require('../../middlewares/isAuthenticated')
-const registerPolicy = require('../../middlewares/registerPolicy')
-const loginPolicy = require('../../middlewares/loginPolicy')
-const forgotPasswordPolicy = require('../../middlewares/forgotPasswordPolicy')
+const AuthPolicies = require('../../middlewares/authPolicies')
 
 // Import controllers
 const authController = require('../../controllers/authController')
 
 // POST /auth/register - register user and send email verification
-router.post('/register', registerPolicy, authController.registerUser)
+router.post('/register', AuthPolicies.registerPolicy, authController.registerUser)
 
 // POST /auth/login - login user and return token
-router.post('/login', loginPolicy, authController.loginUser)
+router.post('/login', AuthPolicies.loginPolicy, authController.loginUser)
 
 // GET /auth/verify-email - verify user email with token
 router.get('/verify-email', authController.verifyEmail)
 
 // POST /auth/forgot-password - send email with reset password link
-router.post('/forgot-password', forgotPasswordPolicy, authController.forgotPassword)
+router.post('/forgot-password', AuthPolicies.forgotPasswordPolicy, authController.forgotPassword)
 
 // POST /auth/reset-password - reset user password with token
 router.post('/reset-password', authController.resetPassword)
