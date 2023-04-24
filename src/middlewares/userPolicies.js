@@ -1,12 +1,13 @@
-/*
- * Middelewares for user policies.
- * Used in the routes to check the request parameters before calling the controller.
+/**
+ * @module middlewares/userPolicies
+ * @description Contains the middlewares to validate the requests that pretend to create, retrieve, update or delete a user. 
+ * @requires joi
  */
 
 const Joi = require('joi')
 
 /**
- * Policy to validate the requests that pretend to create a new user.
+ * @function newUserPolicy - Policy to validate the requests that pretend to create a new user.
  * @param {Object} req - An object that includes a body element with user data.
  * @param {Object} res - An object that will be passed to the next middleware in the stack.
  * @param {Function} next - A function to call the next middleware in the stack.
@@ -55,14 +56,14 @@ const newUserPolicy = async (req, res, next) => {
   } catch (error) {
     res.status(500).json({
       sucess: false,
-      message: 'Something went wrong!',
+      message: 'Something went wrong in the server during the user policy validation.',
       data: error
     })
   }
 }
 
 /**
- * Policy to validate the requests that pretend to retrieve user data.
+ * @function getUserPolicy - Policy to validate the requests that pretend to retrieve a user.
  * @param {Object} req - An object that contains the id of the user that you want to retrieve from the database.
  * @param {Object} res - An object that will be passed to the next middleware in the stack.
  * @param {Function} next - A function to call the next middleware in the stack.
@@ -81,14 +82,14 @@ const getUserPolicy = async (req, res, next) => {
   } catch (error) {
     res.status(500).json({
       sucess: false,
-      message: 'Something went wrong!',
+      message: 'Something went wrong in the server during the user policy validation.',
       data: error
     })
   }
 }
 
 /**
- * Policy to validate the requests that pretend to update user data.
+ * @function updateUserPolicy - Policy to validate the requests that pretend to update a user.
  * @param {Object} req - An object that includes user id and data changes.
  * @param {Object} res - An object that will be passed to the next middleware in the stack.
  * @param {Function} next - A function to call the next middleware in the stack.
@@ -107,7 +108,7 @@ const updateUserPolicy = async (req, res, next) => {
 }
 
 /**
- * Policy to validate the requests that pretend to delete a user.
+ * @function deleteUserPolicy - Policy to validate the requests that pretend to delete a user.
  * @param {Object} req - An object that includes user id and data changes.
  * @param {Object} res - An object that will be passed to the next middleware in the stack.
  * @param {Function} next - A function to call the next middleware in the stack.
@@ -119,13 +120,14 @@ const deleteUserPolicy = async (req, res, next) => {
   } catch (error) {
     res.status(500).json({
       sucess: false,
-      message: 'Something went wrong!',
+      message: 'Something went wrong in the server during the user policy validation.',
       data: error
     })
   }
 }
 
-/** Policy to validate the requests that pretend to get all users data.
+/**
+ * @function getAllUsersPolicy - Policy to validate the requests that pretend to retrieve all users.
  * @param {Object} req - An object that includes user id and data changes.
  * @param {Object} res - An object that will be passed to the next middleware in the stack.
  * @param {Function} next - A function to call the next middleware in the stack.
@@ -137,7 +139,7 @@ const getAllUsersPolicy = async (req, res, next) => {
   } catch (error) {
     res.status(500).json({
       sucess: false,
-      message: 'Something went wrong!',
+      message: 'Something went wrong in the server during the user policy validation.',
       data: error
     })
   }

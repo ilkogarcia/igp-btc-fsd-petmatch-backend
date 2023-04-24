@@ -1,11 +1,18 @@
 /**
- * @module middlewares/adoptionApplicationPolicy
+ * @module middlewares/adoptionApplicationPolicies
  * @description Module containing all policies applied on the different adoption application endpoints.
  * @requires joi
  */
 
 // Import validation library
 const Joi = require('joi')
+
+/**
+ * @function newAdoptionPolicy - Policy applied on the new adoption application endpoint.
+ * @param {Object} req - An object that includes a body element with data to create a new adoption application in the database. 
+ * @param {Object} res - An object that will be passed to the next middleware in the stack.
+ * @param {Function} next - A function to call the next middleware in the stack.
+ */
 
 const newAdoptionPolicy = async (req, res, next) => {
   try {
@@ -59,6 +66,13 @@ const newAdoptionPolicy = async (req, res, next) => {
   }
 }
 
+/**
+ * @function getAllAdoptionPolicy - Policy applied on the get all adoption applications endpoint.
+ * @param {Object} req - An object that includes the id of the adoption applications to get.
+ * @param {Object} res - An object that will be passed to the next middleware in the stack.
+ * @param {Function} next - A function to call the next middleware in the stack.
+ */
+
 const getAdoptionPolicy = async (req, res, next) => {
   try {
     const { params: { adoptionId } } = req
@@ -77,6 +91,13 @@ const getAdoptionPolicy = async (req, res, next) => {
     })
   }
 }
+
+/**
+ * @function updateAdoptionPolicy - Policy applied on the update adoption application endpoint.
+ * @param {Object} req - An object that includes the id of the adoption application to update.
+ * @param {Object} res - An object that will be passed to the next middleware in the stack.
+ * @param {Function} next - A function to call the next middleware in the stack.
+ */
 
 const updateAdoptionPolicy = async (req, res, next) => {
   try {
@@ -134,6 +155,13 @@ const updateAdoptionPolicy = async (req, res, next) => {
     })
   }
 }
+
+/**
+ * @function deleteAdoptionPolicy - Policy applied on the delete adoption application endpoint.
+ * @param {Object} req - An object that includes the id of the adoption application to delete.
+ * @param {Object} res - An object that will be passed to the next middleware in the stack.
+ * @param {Function} next - A function to call the next middleware in the stack.
+ */
 
 const deleteAdoptionPolicy = async (req, res, next) => {
   try {

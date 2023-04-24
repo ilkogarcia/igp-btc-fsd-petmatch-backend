@@ -15,7 +15,7 @@ const router = express.Router()
 // Import security middlewares
 const isAuthenticated = require('../../middlewares/isAuthenticated')
 const isAuthorizedOnShelter = require('../../middlewares/isAuthorizedOnShelter')
-const ShelterPolicy = require('../../middlewares/shelterPolicy')
+const ShelterPolicy = require('../../middlewares/shelterPolicies')
 
 // Import shelter controllers
 const ShelterController = require('../../controllers/shelterController')

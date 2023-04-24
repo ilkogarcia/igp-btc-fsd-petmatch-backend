@@ -1,5 +1,5 @@
 /**
- * @module middlewares/shelterPolicy
+ * @module middlewares/shelterPolicies
  * @description Module containing all policies applied on the different shelter endpoints.
  * @requires joi
  */

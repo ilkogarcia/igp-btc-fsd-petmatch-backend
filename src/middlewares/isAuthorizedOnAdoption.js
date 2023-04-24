@@ -4,14 +4,17 @@
  * @param {object} req - Request object
  * @param {object} res - Response object
  * @param {function} next - Next function
+ * @requires module:consts
  */
+
+const USER_ROLES = require('./consts.js')
 
 const isAuthorizedOnAdoption = async (req, res, next) => {
   try {
     switch (req.userRole) {
-      case 'administrator':
+      case USER_ROLES.ADMIN:
         return next()
-      case 'shelter':
+      case USER_ROLES.SHELTER:
         if (req.method !== 'DELETE') {
           return res.status(403).json({
             status: false,
@@ -19,7 +22,7 @@ const isAuthorizedOnAdoption = async (req, res, next) => {
           })
         }
         return next()
-      case 'user':
+      case USER_ROLES.USER:
         return next()
       default:
         return res.status(403).json({

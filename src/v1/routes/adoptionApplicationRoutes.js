@@ -14,7 +14,7 @@ const router = express.Router()
 // Import security middlewares
 const isAuthenticated = require('../../middlewares/isAuthenticated')
 const isAuthorizedOnAdoption = require('../../middlewares/isAuthorizedOnAdoption')
-const AdoptionApplicationPolicy = require('../../middlewares/adoptionApplicationPolicy')
+const AdoptionApplicationPolicy = require('../../middlewares/adoptionApplicationPolicies')
 
 // Import adoption application controllers
 const AdoptionApplicationController = require('../../controllers/adoptionApplicationController')

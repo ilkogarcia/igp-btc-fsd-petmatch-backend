@@ -4,15 +4,18 @@
  * @param {object} req - Request object
  * @param {object} res - Response object
  * @param {function} next - Next function
+ * @requires module:consts
  */
+
+const USER_ROLES = require('./consts.js')
 
 const isAuthorizedOnUser = async (req, res, next) => {
   try {
     switch (req.userRole) {
-      case 'administrator':
+      case USER_ROLES.ADMIN:
         return next()
-      case 'user':
-      case 'shelter':
+      case USER_ROLES.USER:
+      case USER_ROLES.SHELTER:
         // Users don't have access to the root path
         if (req.route.path === '/') {
           return res.status(403).json({

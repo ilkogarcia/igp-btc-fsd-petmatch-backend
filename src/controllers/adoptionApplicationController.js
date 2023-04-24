@@ -164,18 +164,12 @@ const getAllAdoptionApplications = async (req, res) => {
   // Calculate the offset
   const offset = (page - 1) * limit
 
-  // Get the filter parameters from the request body and force the user ID to be the same as the one in the token
+  // Get the filter and order parameters from the request body
   const { filterParams } = req.body
-  const updatedFilterParams = {
-    ...filterParams,
-    user: req.userId
-  }
-
-  // Get the order parameters from the request body
   const { orderParams } = req.body
 
   try {
-    const adoptionApplications = await AdoptionApplication.getAllAdoptionApplications(limit, offset, updatedFilterParams, orderParams)
+    const adoptionApplications = await AdoptionApplication.getAllAdoptionApplications(limit, offset, filterParams, orderParams)
     if (!adoptionApplications) {
       return res.status(404).json({
         sucess: false,

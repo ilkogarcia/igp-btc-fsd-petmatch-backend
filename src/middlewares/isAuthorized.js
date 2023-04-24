@@ -4,16 +4,19 @@
  * @param {object} req - Request object
  * @param {object} res - Response object
  * @param {function} next - Next function
+ * @requires module:consts
  */
+
+const USER_ROLES = require('./consts.js')
 
 const isAuthorized = async (req, res, next) => {
   try {
     switch (req.userRole) {
-      case 'administrator':
+      case USER_ROLES.ADMIN:
         return next()
-      case 'user':
+      case USER_ROLES.USER:
         return next()
-      case 'shelter':
+      case USER_ROLES.SHELTER:
         return next()
       default:
         return res.status(401).json({

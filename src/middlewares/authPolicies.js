@@ -1,11 +1,13 @@
-/*
- * Middleware for access control policies
-*/
+/**
+ * @module middlewares/authPolicies
+ * @description This module contains the middlewares to validate the request body against the schema.
+ * @requires joi
+ */
 
 const Joi = require('joi')
 
 /**
- *
+ * @function registerPolicy - Policy to validate the requests that pretend to create a new user.
  * @param {Object} req - An object that includes a body element with data to create a new user in the database.
  * @param {Object} res - An object that will be passed to the next middleware in the stack.
  * @param {Function} next - A function to call the next middleware in the stack.
@@ -41,7 +43,7 @@ const registerPolicy = async (req, res, next) => {
 }
 
 /**
- *
+ * @function loginPolicy - Policy to validate the requests that pretend to login a user.
  * @param {Object} req - An object that includes a body element with user credentials.
  * @param {Object} res - An object that will be passed to the next middleware in the stack.
  * @param {Function} next - A function to call the next middleware in the stack.
@@ -77,7 +79,7 @@ const loginPolicy = async (req, res, next) => {
 }
 
 /**
- *
+ * @function resetPasswordPolicy - Policy to validate the requests that pretend to reset a user password.
  * @param {Object} req - An object that includes a body element with user id, token and new password.
  * @param {Object} res - An object that will be passed to the next middleware in the stack.
  * @param {Function} next - A function to call the next middleware in the stack.
@@ -119,7 +121,7 @@ const resetPasswordPolicy = async (req, res, next) => {
 }
 
 /**
- *
+ * @function forgotPasswordPolicy - Policy to validate the requests that pretend to send a reset password email.
  * @param {Object} req - An object that includes a body element with user credentials.
  * @param {Object} res - An object that will be passed to the next middleware in the stack.
  * @param {Function} next - A function to call the next middleware in the stack.
