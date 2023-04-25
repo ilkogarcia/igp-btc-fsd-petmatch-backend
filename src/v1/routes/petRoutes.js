@@ -27,7 +27,7 @@ router.put('/:petId', isAuthenticated, isAuthorized, PetController.updateOnePet)
 router.delete('/:petId', isAuthenticated, isAuthorized, PetController.deleteOnePet)
 
 // POST /api/v1/pets - Get all pets
-router.post('/', isAuthenticated, isAuthorized, PetController.getAllPets)
+router.post('/search', isAuthenticated, isAuthorized, PetController.getAllPets)
 
 // PUT /api/v1/pets/:petId/like - Like a pet
 router.put('/:petId/like', isAuthenticated, isAuthorized, PetController.likeOnePet)
