@@ -1,7 +1,8 @@
+/* eslint-disable comma-dangle */
 /*
  * This file contains all the functions that will be used to handle the
  * authentication of the user.
-*/
+ */
 
 // Import the required dependencies
 require('dotenv').config()
@@ -10,8 +11,15 @@ const jwt = require('jsonwebtoken')
 
 // Import the required services
 const { sendEmail } = require('../services/emailService')
-const { getOneAccountType, findAccountTypeByTitle } = require('../services/accountTypeService')
-const { createNewUser, updateOneUser, findOneUser } = require('../services/userService')
+const {
+  getOneAccountType,
+  findAccountTypeByTitle,
+} = require('../services/accountTypeService')
+const {
+  createNewUser,
+  updateOneUser,
+  findOneUser,
+} = require('../services/userService')
 
 // Import the required helpers
 const { addToBlacklist } = require('../helpers/auth')
@@ -21,7 +29,7 @@ const { addToBlacklist } = require('../helpers/auth')
  *
  * @param {Object} req - An object that includes a body element with data to create a new user in the database.
  * @returns {Object} res - An object in JSON format that includes all info from the recently created user.
-*/
+ */
 
 const registerUser = async (req, res) => {
   try {
@@ -32,7 +40,7 @@ const registerUser = async (req, res) => {
     if (existingUser) {
       return res.status(409).json({
         sucess: false,
-        message: 'Email already exists'
+        message: 'Email already exists',
       })
     }
 
@@ -45,7 +53,7 @@ const registerUser = async (req, res) => {
     if (!accountType) {
       return res.status(500).json({
         sucess: false,
-        message: 'Internal server error'
+        message: 'Internal server error',
       })
     }
 
@@ -55,18 +63,22 @@ const registerUser = async (req, res) => {
       passwordHash,
       accountTypeId: accountType.id,
       isActive: true,
-      isVerified: false
+      isVerified: false,
     }
 
     // Create the user in the database
     const user = await createNewUser(newUser)
 
     // Generate a token to verify the user email
-    const token = jwt.sign({
-      userId: user.id,
-      userEmail: user.email,
-      userRole: accountType.title || 'user'
-    }, process.env.SECRET_EMAIL, { expiresIn: '48h' })
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        userEmail: user.email,
+        userRole: accountType.title || 'user',
+      },
+      process.env.SECRET_EMAIL,
+      { expiresIn: '48h' }
+    )
 
     // Create a verify-email URL using the generated token.
     const verificationURL = `${process.env.API_URL}/auth/verify-email?token=${token}`
@@ -85,13 +97,14 @@ const registerUser = async (req, res) => {
 
     return res.status(201).json({
       sucess: true,
-      message: 'Registration successful. Please verify your email. We have sent you the instructions to verify your email account and complete the registration process.'
+      message:
+        'Registration successful. Please verify your email. We have sent you the instructions to verify your email account and complete the registration process.',
     })
   } catch (error) {
     return res.status(500).json({
       sucess: false,
       message: error?.message || 'Internal server error',
-      data: error
+      data: error,
     })
   }
 }
@@ -115,7 +128,7 @@ const verifyEmail = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid or expired email verification token.'
+        message: 'Invalid or expired email verification token.',
       })
     }
 
@@ -124,19 +137,19 @@ const verifyEmail = async (req, res) => {
     if (!updatedUser) {
       return res.status(400).json({
         success: false,
-        message: 'An error occurred during email verification process.'
+        message: 'An error occurred during email verification process.',
       })
     }
 
     return res.status(201).json({
       sucess: true,
-      message: 'Your email has been successfully verified.'
+      message: 'Your email has been successfully verified.',
     })
   } catch (error) {
     return res.status(500).json({
       sucess: false,
       message: error?.message || 'Unknown error. Please try again later.',
-      data: error
+      data: error,
     })
   }
 }
@@ -147,7 +160,7 @@ const verifyEmail = async (req, res) => {
  * @param {Object} req - An object that includes a body element with data to login a user in the application.
  * @returns {Object} res - An object in JSON format that includes all info from the recently created user
  * and a token to be used in the next requests.
-*/
+ */
 
 const loginUser = async (req, res) => {
   try {
@@ -158,7 +171,7 @@ const loginUser = async (req, res) => {
     if (!user) {
       return res.status(401).json({
         sucess: false,
-        message: 'Invalid credentials'
+        message: 'Invalid credentials',
       })
     }
 
@@ -166,7 +179,7 @@ const loginUser = async (req, res) => {
     if (!user.isActive) {
       return res.status(401).json({
         sucess: false,
-        message: 'User account is not active'
+        message: 'User account is not active',
       })
     }
 
@@ -174,7 +187,7 @@ const loginUser = async (req, res) => {
     if (!user.isVerified) {
       return res.status(401).json({
         sucess: false,
-        message: 'User email is not verified'
+        message: 'User email is not verified',
       })
     }
 
@@ -183,7 +196,7 @@ const loginUser = async (req, res) => {
     if (!isPasswordCorrect) {
       return res.status(401).json({
         sucess: false,
-        message: 'Invalid credentials'
+        message: 'Invalid credentials',
       })
     }
 
@@ -195,21 +208,31 @@ const loginUser = async (req, res) => {
       {
         userId: user.id,
         userEmail: user.email,
-        userRole: accountType.title
-      }, process.env.SECRET_WEB, { expiresIn: '24h' })
+        userRole: accountType.title,
+      },
+      process.env.SECRET_WEB,
+      { expiresIn: '24h' }
+    )
 
     return res.status(201).json({
       sucess: true,
       message: 'User logged in successfully',
       data: {
-        token
-      }
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        role: user.accountTypeId,
+        image: user.profilePicture,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        token,
+      },
     })
   } catch (error) {
     return res.status(500).json({
       sucess: false,
       message: error?.message || 'Internal server error',
-      data: error
+      data: error,
     })
   }
 }
@@ -219,7 +242,7 @@ const loginUser = async (req, res) => {
  *
  * @param {Object} req - An object that includes user token.
  * @returns {Object} res - An object in JSON format that includes a message.
-*/
+ */
 
 const logoutUser = async (req, res) => {
   try {
@@ -229,13 +252,13 @@ const logoutUser = async (req, res) => {
     // respond to the client with a success message
     return res.status(200).json({
       sucess: true,
-      message: 'User logged out successfully'
+      message: 'User logged out successfully',
     })
   } catch (error) {
     return res.status(500).json({
       sucess: false,
       message: error?.message || 'Internal server error',
-      data: error
+      data: error,
     })
   }
 }
@@ -260,7 +283,7 @@ const forgotPassword = async (req, res) => {
     if (!user) {
       return res.status(401).json({
         sucess: false,
-        message: 'Invalid credentials'
+        message: 'Invalid credentials',
       })
     }
 
@@ -268,7 +291,7 @@ const forgotPassword = async (req, res) => {
     if (!user.isActive) {
       return res.status(401).json({
         sucess: false,
-        message: 'User account is not active'
+        message: 'User account is not active',
       })
     }
 
@@ -276,15 +299,19 @@ const forgotPassword = async (req, res) => {
     if (!user.isVerified) {
       return res.status(401).json({
         sucess: false,
-        message: 'User email is not verified'
+        message: 'User email is not verified',
       })
     }
 
     // Generate a token to use in the reset password URL
-    const token = jwt.sign({
-      userId: user.id,
-      userEmail: user.email
-    }, process.env.SECRET_EMAIL, { expiresIn: '1h' })
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        userEmail: user.email,
+      },
+      process.env.SECRET_EMAIL,
+      { expiresIn: '1h' }
+    )
 
     // Create a reset password URL using the generated token.
     const resetpasswordURL = `${process.env.API_URL}/auth/reset-password?token=${token}`
@@ -304,13 +331,14 @@ const forgotPassword = async (req, res) => {
 
     return res.status(201).json({
       sucess: true,
-      message: 'Check your email.  We have sent you the instructions to complete the process of restoring your credentials.'
+      message:
+        'Check your email.  We have sent you the instructions to complete the process of restoring your credentials.',
     })
   } catch (error) {
     return res.status(500).json({
       sucess: false,
       message: error?.message || 'Internal server error',
-      data: error
+      data: error,
     })
   }
 }
@@ -333,14 +361,14 @@ const resetPassword = async (req, res) => {
     if (!user) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid or expired reset password token.'
+        message: 'Invalid or expired reset password token.',
       })
     }
 
     if (user.id !== parseInt(userId)) {
       return res.status(400).json({
         success: false,
-        message: 'Invalid or expired reset password token.'
+        message: 'Invalid or expired reset password token.',
       })
     }
 
@@ -353,19 +381,21 @@ const resetPassword = async (req, res) => {
     if (!updatedUser) {
       return res.status(400).json({
         success: false,
-        message: 'An error occurred during the password update process. Please try again later.'
+        message:
+          'An error occurred during the password update process. Please try again later.',
       })
     }
 
     return res.status(201).json({
       sucess: true,
-      message: 'Your password has been updated successfully. You can now login with your new credentials.'
+      message:
+        'Your password has been updated successfully. You can now login with your new credentials.',
     })
   } catch (error) {
     return res.status(500).json({
       sucess: false,
       message: error?.message || 'Unknown error. Please try again later.',
-      data: error
+      data: error,
     })
   }
 }
@@ -377,5 +407,5 @@ module.exports = {
   refreshToken,
   forgotPassword,
   resetPassword,
-  verifyEmail
+  verifyEmail,
 }
