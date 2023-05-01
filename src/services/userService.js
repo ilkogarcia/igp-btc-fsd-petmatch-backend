@@ -1,3 +1,4 @@
+/* eslint-disable comma-dangle */
 /* eslint-disable no-throw-literal */
 /**
  * @module services/userService
@@ -27,7 +28,7 @@ const createNewUser = async (newUser) => {
   } catch (error) {
     throw {
       status: error?.status || 500,
-      message: error?.message || 'Internal server error.'
+      message: error?.message || 'Internal server error.',
     }
   }
 }
@@ -45,7 +46,7 @@ const getOneUser = async (userId) => {
     if (!user) {
       throw {
         status: 404,
-        message: `Can't find user with the id '${userId}'.`
+        message: `Can't find user with the id '${userId}'.`,
       }
     }
 
@@ -53,7 +54,7 @@ const getOneUser = async (userId) => {
   } catch (error) {
     throw {
       status: error?.status || 500,
-      message: error?.message || 'Internal server error.'
+      message: error?.message || 'Internal server error.',
     }
   }
 }
@@ -69,12 +70,12 @@ const updateOneUser = async (userId, userData) => {
   try {
     // Update the user if not found throw an error
     const updatedResult = await User.update(userData, {
-      where: { id: userId }
+      where: { id: userId },
     })
     if (updatedResult[0] === 0 || !updatedResult) {
       throw {
         status: 404,
-        message: `Can't update user with the id '${userId}'.`
+        message: `Can't update user with the id '${userId}'.`,
       }
     }
 
@@ -85,7 +86,7 @@ const updateOneUser = async (userId, userData) => {
   } catch (error) {
     throw {
       status: error?.status || 500,
-      message: error?.message || 'Internal server error.'
+      message: error?.message || 'Internal server error.',
     }
   }
 }
@@ -103,18 +104,18 @@ const deleteOneUser = async (userId) => {
     if (!userToDelete) {
       throw {
         status: 404,
-        message: `Can't find user with the id '${userId}'.`
+        message: `Can't find user with the id '${userId}'.`,
       }
     }
 
     // Delete the user and throw an error in case of failure
     const deletedResult = await User.destroy({
-      where: { id: userId }
+      where: { id: userId },
     })
     if (!deletedResult) {
       throw {
         status: 404,
-        message: `Can't delete user with the id '${userId}'.`
+        message: `Can't delete user with the id '${userId}'.`,
       }
     }
 
@@ -122,7 +123,7 @@ const deleteOneUser = async (userId) => {
   } catch (error) {
     throw {
       status: error?.status || 500,
-      message: error?.message || 'Internal server error.'
+      message: error?.message || 'Internal server error.',
     }
   }
 }
@@ -147,32 +148,49 @@ const getAllUsers = async (limit, offset, filterParams, orderParams) => {
       postalCode,
       gender,
       active,
-      verified
+      verified,
     } = filterParams
 
     // Conditions to be used in all where clauses
-    const accounCondition = (accountType) ? { title: { [Op.like]: `${accountType}` } } : {}
-    const cityCondition = (city) ? { cityName: { [Op.like]: `${city}` } } : {}
-    const stateCondition = (stateProvince) ? { stateProvinceName: { [Op.like]: `${stateProvince}` } } : {}
-    const countryCondition = (country) ? { countryName: { [Op.like]: `${country}` } } : {}
-    const postalCodeCondition = (postalCode) ? { postalCode: { [Op.like]: `${postalCode}` } } : {}
-    const genderCondition = (gender) ? { gender: { [Op.like]: `${gender}` } } : {}
-    const activeCondition = (active) ? { isActive: { [Op.like]: `${active}` } } : {}
-    const verifiedCondition = (verified) ? { isVerified: { [Op.like]: `${verified}` } } : {}
+    const accounCondition = accountType
+      ? { title: { [Op.like]: `${accountType}` } }
+      : {}
+    const cityCondition = city ? { cityName: { [Op.like]: `${city}` } } : {}
+    const stateCondition = stateProvince
+      ? { stateProvinceName: { [Op.like]: `${stateProvince}` } }
+      : {}
+    const countryCondition = country
+      ? { countryName: { [Op.like]: `${country}` } }
+      : {}
+    const postalCodeCondition = postalCode
+      ? { postalCode: { [Op.like]: `${postalCode}` } }
+      : {}
+    const genderCondition = gender ? { gender: { [Op.like]: `${gender}` } } : {}
+    const activeCondition = active
+      ? { isActive: { [Op.like]: `${active}` } }
+      : {}
+    const verifiedCondition = verified
+      ? { isVerified: { [Op.like]: `${verified}` } }
+      : {}
 
     // Order conditions to be used in the query
-    const orderConditions = (orderParams)
+    const orderConditions = orderParams
       ? orderParams.map((order) => [order.field, order.direction])
       : [['id', 'ASC']]
 
     // Get all users from the database applying the conditions, sorting and pagination
     const users = await User.findAndCountAll({
-      where: { ...activeCondition, ...verifiedCondition, ...genderCondition, ...postalCodeCondition },
+      where: {
+        ...activeCondition,
+        ...verifiedCondition,
+        ...genderCondition,
+        ...postalCodeCondition,
+      },
       include: [
         {
           model: AccountType,
           where: { ...accounCondition },
-          required: true
+          required: true,
         },
         {
           model: City,
@@ -187,20 +205,23 @@ const getAllUsers = async (limit, offset, filterParams, orderParams) => {
                 {
                   model: Country,
                   where: { ...countryCondition },
-                  required: true
-                }]
-            }]
-        }],
+                  required: true,
+                },
+              ],
+            },
+          ],
+        },
+      ],
       limit,
       offset,
-      order: orderConditions
+      order: orderConditions,
     })
 
     return users
   } catch (error) {
     throw {
       status: error?.status || 500,
-      message: error?.message || 'Internal server error.'
+      message: error?.message || 'Internal server error.',
     }
   }
 }
@@ -217,15 +238,19 @@ const findOneUser = async (filterParams) => {
     const { userId, userEmail } = filterParams
 
     // Conditions to be used in all where clauses
-    const idCondition = (userId) ? { id: { [Op.like]: `${userId}` } } : {}
-    const emailCondition = (userEmail) ? { email: { [Op.like]: `${userEmail}` } } : {}
+    const idCondition = userId ? { id: { [Op.eq]: `${userId}` } } : {}
+    const emailCondition = userEmail
+      ? { email: { [Op.eq]: `${userEmail}` } }
+      : {}
 
     // Get the user by email and throw an error if not found
-    const user = await User.findOne({ where: { ...idCondition, ...emailCondition } })
+    const user = await User.findOne({
+      where: { ...idCondition, ...emailCondition },
+    })
     if (!user) {
       throw {
         status: 404,
-        message: 'Can\'t find user with that id or email.'
+        message: "Can't find user with that id or email.",
       }
     }
 
@@ -233,7 +258,7 @@ const findOneUser = async (filterParams) => {
   } catch (error) {
     throw {
       status: error?.status || 500,
-      message: error?.message || 'Internal server error.'
+      message: error?.message || 'Internal server error.',
     }
   }
 }
@@ -244,5 +269,5 @@ module.exports = {
   updateOneUser,
   deleteOneUser,
   getAllUsers,
-  findOneUser
+  findOneUser,
 }

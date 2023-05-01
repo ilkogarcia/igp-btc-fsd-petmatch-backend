@@ -21,6 +21,8 @@ const {
   findOneUser,
 } = require('../services/userService')
 
+const { checkUserEmailExists } = require('../services/authService')
+
 // Import the required helpers
 const { addToBlacklist } = require('../helpers/auth')
 
@@ -36,8 +38,9 @@ const registerUser = async (req, res) => {
     const { email, password } = req.body
 
     // Check if the user already exists
-    const existingUser = await findOneUser({ userEmail: email })
-    if (existingUser) {
+    const existUserEmail = await checkUserEmailExists({ email })
+
+    if (existUserEmail) {
       return res.status(409).json({
         sucess: false,
         message: 'Email already exists',
@@ -50,6 +53,7 @@ const registerUser = async (req, res) => {
 
     // Get the id defined for users account type
     const accountType = await findAccountTypeByTitle('user')
+
     if (!accountType) {
       return res.status(500).json({
         sucess: false,
