@@ -85,7 +85,7 @@ const registerUser = async (req, res) => {
     )
 
     // Create a verify-email URL using the generated token.
-    const verificationURL = `${process.env.API_URL}/auth/verify-email?token=${token}`
+    const verificationURL = `${process.env.WEB_URL}/auth/verify-email?token=${token}`
 
     // Format the email content and include the verification URL
     const emailMsg = `
@@ -318,7 +318,7 @@ const forgotPassword = async (req, res) => {
     )
 
     // Create a reset password URL using the generated token.
-    const resetpasswordURL = `${process.env.API_URL}/auth/reset-password?token=${token}`
+    const resetpasswordURL = `${process.env.WEB_URL}/auth/reset-password?token=${token}`
 
     // Format the email content and include the reset password URL
     const emailMsg = `
