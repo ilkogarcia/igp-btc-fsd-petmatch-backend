@@ -9,10 +9,6 @@
 const express = require('express')
 const router = express.Router()
 
-// Import security middlewares
-// const isAuthenticated = require('../../middlewares/isAuthenticated')
-// const isAuthorized = require('../../middlewares/isAuthorized')
-
 // Import country controllers
 const PetStatusController = require('../../controllers/petStatusController')
 
