@@ -1,3 +1,10 @@
+/**
+ * @module v1/routes/petStatusRoutes
+ * @description Pet status routes.
+ * @requires express
+ * @requires v1/controllers/petStatusController
+ */
+
 // Import express and create router
 const express = require('express')
 const router = express.Router()
