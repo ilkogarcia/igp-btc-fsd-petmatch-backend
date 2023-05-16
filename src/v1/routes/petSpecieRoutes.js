@@ -10,8 +10,8 @@ const express = require('express')
 const router = express.Router()
 
 // Import security middlewares
-// const isAuthenticated = require('../../middlewares/isAuthenticated')
-// const isAuthorized = require('../../middlewares/isAuthorized')
+const isAuthenticated = require('../../middlewares/isAuthenticated')
+const isAuthorized = require('../../middlewares/isAuthorized')
 
 // Import country controllers
 const PetSpecieController = require('../../controllers/petSpecieController')
@@ -19,7 +19,12 @@ const PetSpecieController = require('../../controllers/petSpecieController')
 // GET /v1/pet-species/:petSpecieId - Get one pet specie by his id
 router.get('/:petSpecieId', PetSpecieController.getOnePetSpecie)
 
-// GET /v1/pet-species - Get all pet species
-router.get('/', PetSpecieController.getAllPetSpecies)
+// POST /v1/pet-species/search - Get all pet species usign filters
+router.post(
+  '/search',
+  isAuthenticated,
+  isAuthorized,
+  PetSpecieController.getAllPetSpecies
+)
 
 module.exports = router
