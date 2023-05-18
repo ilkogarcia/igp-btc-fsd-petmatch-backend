@@ -57,7 +57,7 @@ router.delete(
 )
 
 // POST /api/v1/shelters/search - CRUD: Read all shelters
-router.get(
+router.post(
   '/search',
   isAuthenticated,
   isAuthorizedOnShelter,
