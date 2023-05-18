@@ -15,7 +15,7 @@ const PetStatusController = require('../../controllers/petStatusController')
 // GET /v1/pet-statuses/:petStatusId - Get one pet status by his id
 router.get('/:petStatusId', PetStatusController.getOnePetStatus)
 
-// GET /v1/pet-statuses - Get all pet statuses
-router.get('/', PetStatusController.getAllPetStatuses)
+// POST /v1/pet-statuses/search - Get all pet statuses
+router.post('/search', PetStatusController.getAllPetStatuses)
 
 module.exports = router
