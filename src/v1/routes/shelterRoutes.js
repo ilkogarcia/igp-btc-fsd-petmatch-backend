@@ -21,18 +21,48 @@ const ShelterPolicy = require('../../middlewares/shelterPolicies')
 const ShelterController = require('../../controllers/shelterController')
 
 // POST /api/v1/shelters/ - CRUD: Create a new shelter
-router.post('/', isAuthenticated, isAuthorizedOnShelter, ShelterPolicy.newShelterPolicy, ShelterController.createNewShelter)
+router.post(
+  '/',
+  isAuthenticated,
+  isAuthorizedOnShelter,
+  ShelterPolicy.newShelterPolicy,
+  ShelterController.createNewShelter
+)
 
 // GET /api/v1/shelters/:shelterId - CRUD: Read one shelter by id
-router.get('/:shelterId', isAuthenticated, isAuthorizedOnShelter, ShelterPolicy.getShelterPolicy, ShelterController.getOneShelter)
+router.get(
+  '/:shelterId',
+  isAuthenticated,
+  isAuthorizedOnShelter,
+  ShelterPolicy.getShelterPolicy,
+  ShelterController.getOneShelter
+)
 
 // PUT /api/v1/shelters/:shelterId - CRUD: Update one shelter by id
-router.put('/:shelterId', isAuthenticated, isAuthorizedOnShelter, ShelterPolicy.updateShelterPolicy, ShelterController.updateOneShelter)
+router.put(
+  '/:shelterId',
+  isAuthenticated,
+  isAuthorizedOnShelter,
+  ShelterPolicy.updateShelterPolicy,
+  ShelterController.updateOneShelter
+)
 
 // DELETE /api/v1/shelters/:shelterId - CRUD: Delete one shelter by id
-router.delete('/:shelterId', isAuthenticated, isAuthorizedOnShelter, ShelterPolicy.deleteShelterPolicy, ShelterController.deleteOneShelter)
+router.delete(
+  '/:shelterId',
+  isAuthenticated,
+  isAuthorizedOnShelter,
+  ShelterPolicy.deleteShelterPolicy,
+  ShelterController.deleteOneShelter
+)
 
-// GET /api/v1/shelters/ - CRUD: Read all shelters
-router.get('/', isAuthenticated, isAuthorizedOnShelter, ShelterPolicy.getAllSheltersPolicy, ShelterController.getAllShelters)
+// POST /api/v1/shelters/search - CRUD: Read all shelters
+router.get(
+  '/search',
+  isAuthenticated,
+  isAuthorizedOnShelter,
+  ShelterPolicy.getAllSheltersPolicy,
+  ShelterController.getAllShelters
+)
 
 module.exports = router
